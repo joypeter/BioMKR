@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="listServerRoles">
+        <item>Production</item>
+        <item>Research</item>
+        <item>Test</item>
+        <item>Alternative IP</item>
+    </string-array>
+
+    <string-array name="listServerValues">
+        <item>"https://precise.glucopred.com/GlucoPredAPI/1/"</item>
+        <item>"https://precise-research.glucopred.com/GlucoPredAPI/1/"</item>
+        <item>"http://precise-test.glucopred.com/GlucoPredAPI/1/"</item>
+        <item>"alt"</item>
+    </string-array>
+
+</resources>

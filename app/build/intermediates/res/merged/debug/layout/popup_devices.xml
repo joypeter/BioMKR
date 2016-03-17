@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    >
+ 		
+    <LinearLayout 
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:orientation="vertical" 
+     android:layout_margin="1dp"
+     android:background="@drawable/popuplayout_border"
+     >
+     
+                    <TextView
+                        android:id="@+id/txtHRSensorStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Heart Rate Monitor not connected" />
+
+                    <TextView
+                        android:id="@+id/txtUSBSensorStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="USB sensor not connected" />
+                    
+                    <TextView
+                        android:id="@+id/txtAccelSensorStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Acceleration sensor not connected" />
+                    
+                    <TextView
+                        android:id="@+id/txtGPSSensorStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="GPS not connected" />
+                    
+                    
+		</LinearLayout>
+		
+    
+</LinearLayout>

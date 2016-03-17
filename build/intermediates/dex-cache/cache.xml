@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/peter/dev/MPA/GlucoPredBLE_AS/app/libs/mongo-2.10.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="09e2c2835b0126a48183ed42129e53b6eb6e259b">
+        <dex dex="/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/pre-dexed/debug/mongo-2.10.1_aa54f0d6a6dc56eced4ccf20f0461e0c96eff473.jar" />
+    </item>
+    <item
+        jar="/Users/peter/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0_0c3ab508c7ebf32c24d6495beaacac12c0259d36.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/GlucoPredBLE_AS/app/libs/jackson-all-1.9.11.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="62246d59c8188052433b28c5fbd50e4e71804f26">
+        <dex dex="/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/pre-dexed/debug/jackson-all-1.9.11_7d25b3e1fab484bbaed08d1f932b41a781cd3b40.jar" />
+    </item>
+
+</items>

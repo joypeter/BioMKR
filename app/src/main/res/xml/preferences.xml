@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="User Settings">
+        <EditTextPreference android:summary="User name to log on to Precise" android:title="User Name" android:key="username"/>
+        <EditTextPreference android:title="User Password" android:inputType="textPassword" android:key="userpasswd" android:summary="Password to use"/>
+        <EditTextPreference android:title="Authentification Secret" android:inputType="textPassword" android:key="usersecret" android:summary="Two factor secret code"/>
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="Server">
+        <ListPreference
+            android:title="Secure Server role"
+            android:summary="Select the server role Precise will connect to"
+            android:key="pref_role"
+            android:defaultValue="alt"
+            android:entries="@array/listServerRoles"
+            android:entryValues="@array/listServerValues" />
+        <EditTextPreference android:summary="IP to use if not using secure server" android:title="Alternative IP" android:key="pref_comip" android:defaultValue="192.168.0.100"/>
+        <EditTextPreference android:summary="Port to use if not using secure server" android:title="Alternative port" android:inputType="number" android:key="pref_comport" android:defaultValue="8081"/>
+        <CheckBoxPreference android:title="Auto update app" android:defaultValue="true" android:summary="Auto update app to configuration ID" android:key="pref_autoupdate"/>
+        <EditTextPreference android:summary="Configuration ID" android:title="Configuration ID for this device" android:inputType="number" android:key="pref_configid" android:defaultValue="1"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

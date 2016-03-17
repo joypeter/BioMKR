@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_devices"
+        android:orderInCategory="99"
+        android:showAsAction="always"
+        android:icon="@drawable/device_access_screen_rotation"
+        android:title="Devices"/>
+   
+    <item
+        android:id="@+id/action_pred_start"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/av_play"
+        android:title="Start"/>
+
+</menu>

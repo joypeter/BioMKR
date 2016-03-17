@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_launcher.png",
+        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_brightness_auto.png",
+        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-xxhdpi/ic_action_brightness_auto.png"
+    },
+    {
+        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_half_important.png",
+        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-xxhdpi/ic_action_half_important.png"
+    },
+    {
+        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_launcher.png",
+        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_half_important.png",
+        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-xxhdpi/ic_action_half_important.png"
+    },
+    {
+        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_brightness_auto.png",
+        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-xxhdpi/ic_action_brightness_auto.png"
+    }
+]
