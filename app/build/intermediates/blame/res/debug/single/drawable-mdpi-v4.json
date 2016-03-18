@@ -1,10 +1,14 @@
 [
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_launcher.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-mdpi/ic_launcher.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_launcher.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-mdpi/ic_launcher.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
     }
 ]

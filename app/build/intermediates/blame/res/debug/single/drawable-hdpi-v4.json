@@ -1,66 +1,98 @@
 [
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_action_half_important.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/ic_action_half_important.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\action_settings.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\action_settings.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_launcher.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/ic_launcher.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_action_brightness_auto.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/ic_action_brightness_auto.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_play.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\av_play.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_launcher.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/ic_launcher.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\device_access_screen_rotation.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\device_access_screen_rotation.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/action_settings.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/action_settings.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\device_access_screen_rotation.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\device_access_screen_rotation.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/av_play.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/av_play.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_play.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\av_play.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/av_pause.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/av_pause.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_pause.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\av_pause.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/av_pause.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/av_pause.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_pause.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\av_pause.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_action_half_important.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/ic_action_half_important.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_half_important.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\ic_action_half_important.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/device_access_screen_rotation.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/device_access_screen_rotation.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\device_access_screen_rotation.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\device_access_screen_rotation.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/action_settings.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/action_settings.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\navigation_refresh.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\navigation_refresh.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/navigation_refresh.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/navigation_refresh.png"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_brightness_auto.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_action_brightness_auto.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/device_access_screen_rotation.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/device_access_screen_rotation.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_half_important.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_action_half_important.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/navigation_refresh.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/navigation_refresh.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_pause.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\av_pause.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_action_brightness_auto.png",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/drawable-hdpi/ic_action_brightness_auto.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\action_settings.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\action_settings.png"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/av_play.png",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/drawable-hdpi/av_play.png"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\navigation_refresh.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\navigation_refresh.png"
+    },
+    {
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\navigation_refresh.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\navigation_refresh.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\av_play.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\av_play.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\action_settings.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\action_settings.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_brightness_auto.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_action_brightness_auto.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_half_important.png",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_action_half_important.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_brightness_auto.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\drawable-hdpi\\ic_action_brightness_auto.png"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     }
 ]

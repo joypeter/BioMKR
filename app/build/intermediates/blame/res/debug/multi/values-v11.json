@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/values-v11/values-v11.xml",
+        "outputFile": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values-v11/styles.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -26,7 +26,7 @@
         ]
     },
     {
-        "outputFile": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/values-v11/values-v11.xml",
+        "outputFile": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -38,7 +38,33 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values-v11/styles.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 183,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 317
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,

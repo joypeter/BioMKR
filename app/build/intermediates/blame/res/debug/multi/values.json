@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/values/values.xml",
+        "outputFile": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 236
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/arrays.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -33,7 +33,7 @@
                     "endOffset": 546
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/arrays.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -54,7 +54,7 @@
                     "endOffset": 707
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -75,7 +75,7 @@
                     "endOffset": 848
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -96,7 +96,7 @@
                     "endOffset": 1098
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -117,7 +117,7 @@
                     "endOffset": 1317
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
@@ -137,7 +137,7 @@
                     "endOffset": 1375
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/dimens.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -156,7 +156,7 @@
                     "endOffset": 1431
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/dimens.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -175,7 +175,655 @@
                     "endOffset": 1499
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 212,
+                        "endColumn": 67,
+                        "endOffset": 275
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 43,
+                    "startColumn": 4,
+                    "startOffset": 1504,
+                    "endColumn": 50,
+                    "endOffset": 1550
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 161,
+                        "endColumn": 50,
+                        "endOffset": 207
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 44,
+                    "startColumn": 4,
+                    "startOffset": 1555,
+                    "endColumn": 52,
+                    "endOffset": 1603
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 108,
+                        "endColumn": 52,
+                        "endOffset": 156
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 45,
+                    "startColumn": 4,
+                    "startOffset": 1608,
+                    "endColumn": 51,
+                    "endOffset": 1655
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 51,
+                        "endOffset": 103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 46,
+                    "startColumn": 4,
+                    "startOffset": 1660,
+                    "endColumn": 64,
+                    "endOffset": 1720
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 521,
+                        "endColumn": 64,
+                        "endOffset": 581
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 1725,
+                    "endColumn": 135,
+                    "endOffset": 1856
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 318,
+                        "endColumn": 135,
+                        "endOffset": 449
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 48,
+                    "startColumn": 4,
+                    "startOffset": 1861,
+                    "endColumn": 65,
+                    "endOffset": 1922
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1038,
+                        "endColumn": 65,
+                        "endOffset": 1099
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 49,
+                    "startColumn": 4,
+                    "startOffset": 1927,
+                    "endColumn": 55,
+                    "endOffset": 1978
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 168,
+                        "endColumn": 55,
+                        "endOffset": 219
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 1983,
+                    "endColumn": 67,
+                    "endOffset": 2046
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 1797,
+                        "endColumn": 67,
+                        "endOffset": 1860
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 51,
+                    "startColumn": 4,
+                    "startOffset": 2051,
+                    "endColumn": 55,
+                    "endOffset": 2102
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 53,
+                        "startColumn": 4,
+                        "startOffset": 2016,
+                        "endColumn": 55,
+                        "endOffset": 2067
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 52,
+                    "startColumn": 4,
+                    "startOffset": 2107,
+                    "endColumn": 86,
+                    "endOffset": 2189
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 587,
+                        "endColumn": 86,
+                        "endOffset": 669
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 53,
+                    "startColumn": 4,
+                    "startOffset": 2194,
+                    "endColumn": 64,
+                    "endOffset": 2254
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 455,
+                        "endColumn": 64,
+                        "endOffset": 515
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 54,
+                    "startColumn": 4,
+                    "startOffset": 2259,
+                    "endColumn": 90,
+                    "endOffset": 2345
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 51,
+                        "startColumn": 4,
+                        "startOffset": 1866,
+                        "endColumn": 90,
+                        "endOffset": 1952
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 55,
+                    "startColumn": 4,
+                    "startOffset": 2350,
+                    "endColumn": 56,
+                    "endOffset": 2402
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 52,
+                        "startColumn": 4,
+                        "startOffset": 1958,
+                        "endColumn": 56,
+                        "endOffset": 2010
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 56,
+                    "startColumn": 4,
+                    "startOffset": 2407,
+                    "endColumn": 91,
+                    "endOffset": 2494
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 225,
+                        "endColumn": 91,
+                        "endOffset": 312
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 57,
+                    "startColumn": 4,
+                    "startOffset": 2499,
+                    "endColumn": 68,
+                    "endOffset": 2563
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1105,
+                        "endColumn": 68,
+                        "endOffset": 1169
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 58,
+                    "startColumn": 4,
+                    "startOffset": 2568,
+                    "endColumn": 80,
+                    "endOffset": 2644
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 47,
+                        "startColumn": 4,
+                        "startOffset": 1664,
+                        "endColumn": 80,
+                        "endOffset": 1740
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 59,
+                    "startColumn": 4,
+                    "startOffset": 2649,
+                    "endColumn": 54,
+                    "endOffset": 2699
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 54,
+                        "startColumn": 4,
+                        "startOffset": 2073,
+                        "endColumn": 54,
+                        "endOffset": 2123
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 60,
+                    "startColumn": 4,
+                    "startOffset": 2704,
+                    "endColumn": 60,
+                    "endOffset": 2760
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 19,
+                        "endColumn": 60,
+                        "endOffset": 75
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 61,
+                    "startColumn": 4,
+                    "startOffset": 2765,
+                    "endColumn": 64,
+                    "endOffset": 2825
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 285,
+                        "endColumn": 64,
+                        "endOffset": 345
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 2830,
+                    "endColumn": 50,
+                    "endOffset": 2876
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 355,
+                        "endColumn": 50,
+                        "endOffset": 401
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 63,
+                    "startColumn": 4,
+                    "startOffset": 2881,
+                    "endColumn": 55,
+                    "endOffset": 2932
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 406,
+                        "endColumn": 55,
+                        "endOffset": 457
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 64,
+                    "startColumn": 4,
+                    "startOffset": 2937,
+                    "endColumn": 50,
+                    "endOffset": 2983
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 462,
+                        "endColumn": 50,
+                        "endOffset": 508
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 65,
+                    "startColumn": 4,
+                    "startOffset": 2988,
+                    "endLine": 71,
+                    "endColumn": 12,
+                    "endOffset": 3274
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 192,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 484
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 72,
+                    "startColumn": 4,
+                    "startOffset": 3279,
+                    "endLine": 74,
+                    "endColumn": 12,
+                    "endOffset": 3434
+                },
+                "from": {
+                    "file": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 525,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 682
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 7,
+                    "endColumn": 19,
+                    "endOffset": 236
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\arrays.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 61,
+                        "endLine": 9,
+                        "endColumn": 19,
+                        "endOffset": 247
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 241,
+                    "endLine": 13,
+                    "endColumn": 19,
+                    "endOffset": 546
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\arrays.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 255,
+                        "endLine": 16,
+                        "endColumn": 19,
+                        "endOffset": 565
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 551,
+                    "endLine": 18,
+                    "endColumn": 19,
+                    "endOffset": 707
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 677,
+                        "endLine": 19,
+                        "endColumn": 19,
+                        "endOffset": 837
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 712,
+                    "endLine": 23,
+                    "endColumn": 19,
+                    "endOffset": 848
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 843,
+                        "endLine": 24,
+                        "endColumn": 19,
+                        "endOffset": 983
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 853,
+                    "endLine": 31,
+                    "endColumn": 19,
+                    "endOffset": 1098
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1177,
+                        "endLine": 37,
+                        "endColumn": 19,
+                        "endOffset": 1429
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 1103,
+                    "endLine": 39,
+                    "endColumn": 19,
+                    "endOffset": 1317
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 4,
+                        "startOffset": 1435,
+                        "endLine": 45,
+                        "endColumn": 19,
+                        "endOffset": 1656
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 1322,
+                    "endColumn": 57,
+                    "endOffset": 1375
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 132,
+                        "endColumn": 57,
+                        "endOffset": 185
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 41,
+                    "startColumn": 4,
+                    "startOffset": 1380,
+                    "endColumn": 55,
+                    "endOffset": 1431
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 191,
+                        "endColumn": 55,
+                        "endOffset": 242
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 42,
+                    "startColumn": 4,
+                    "startOffset": 1436,
+                    "endColumn": 67,
+                    "endOffset": 1499
+                },
+                "from": {
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -194,7 +842,7 @@
                     "endOffset": 1550
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -213,7 +861,7 @@
                     "endOffset": 1603
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -232,7 +880,7 @@
                     "endOffset": 1654
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -251,7 +899,7 @@
                     "endOffset": 1719
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -270,7 +918,7 @@
                     "endOffset": 1855
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -289,7 +937,7 @@
                     "endOffset": 1921
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
@@ -308,7 +956,7 @@
                     "endOffset": 1977
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -327,7 +975,7 @@
                     "endOffset": 2045
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
@@ -346,7 +994,7 @@
                     "endOffset": 2101
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 4,
@@ -365,7 +1013,7 @@
                     "endOffset": 2188
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -384,7 +1032,7 @@
                     "endOffset": 2253
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -403,7 +1051,7 @@
                     "endOffset": 2344
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 4,
@@ -422,7 +1070,7 @@
                     "endOffset": 2401
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
@@ -441,7 +1089,7 @@
                     "endOffset": 2493
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -460,7 +1108,7 @@
                     "endOffset": 2562
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
@@ -479,7 +1127,7 @@
                     "endOffset": 2643
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
@@ -498,7 +1146,7 @@
                     "endOffset": 2698
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 4,
@@ -517,7 +1165,7 @@
                     "endOffset": 2759
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -536,7 +1184,7 @@
                     "endOffset": 2824
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -555,7 +1203,7 @@
                     "endOffset": 2875
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -574,7 +1222,7 @@
                     "endOffset": 2931
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -593,7 +1241,7 @@
                     "endOffset": 2982
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -613,7 +1261,7 @@
                     "endOffset": 3273
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/styles.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -634,7 +1282,7 @@
                     "endOffset": 3433
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/values/styles.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -648,7 +1296,7 @@
         ]
     },
     {
-        "outputFile": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/values/values.xml",
+        "outputFile": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -660,7 +1308,7 @@
                     "endOffset": 236
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/arrays.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -681,7 +1329,7 @@
                     "endOffset": 546
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/arrays.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -702,7 +1350,7 @@
                     "endOffset": 707
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -723,7 +1371,7 @@
                     "endOffset": 848
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -744,7 +1392,7 @@
                     "endOffset": 1098
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -765,7 +1413,7 @@
                     "endOffset": 1317
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
@@ -785,7 +1433,7 @@
                     "endOffset": 1375
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/dimens.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -804,7 +1452,7 @@
                     "endOffset": 1431
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/dimens.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -823,7 +1471,7 @@
                     "endOffset": 1499
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -842,7 +1490,7 @@
                     "endOffset": 1550
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -861,7 +1509,7 @@
                     "endOffset": 1603
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -880,7 +1528,7 @@
                     "endOffset": 1654
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -899,7 +1547,7 @@
                     "endOffset": 1719
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -918,7 +1566,7 @@
                     "endOffset": 1855
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -937,7 +1585,7 @@
                     "endOffset": 1921
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
@@ -956,7 +1604,7 @@
                     "endOffset": 1977
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -975,7 +1623,7 @@
                     "endOffset": 2045
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
@@ -994,7 +1642,7 @@
                     "endOffset": 2101
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 4,
@@ -1013,7 +1661,7 @@
                     "endOffset": 2188
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -1032,7 +1680,7 @@
                     "endOffset": 2253
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -1051,7 +1699,7 @@
                     "endOffset": 2344
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 4,
@@ -1070,7 +1718,7 @@
                     "endOffset": 2401
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
@@ -1089,7 +1737,7 @@
                     "endOffset": 2493
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -1108,7 +1756,7 @@
                     "endOffset": 2562
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
@@ -1127,7 +1775,7 @@
                     "endOffset": 2643
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
@@ -1146,7 +1794,7 @@
                     "endOffset": 2698
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 4,
@@ -1165,7 +1813,7 @@
                     "endOffset": 2759
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings_activity_settings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -1184,7 +1832,7 @@
                     "endOffset": 2824
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -1203,7 +1851,7 @@
                     "endOffset": 2875
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -1222,7 +1870,7 @@
                     "endOffset": 2931
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -1241,7 +1889,7 @@
                     "endOffset": 2982
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/strings.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -1261,7 +1909,7 @@
                     "endOffset": 3273
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/styles.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -1282,7 +1930,7 @@
                     "endOffset": 3433
                 },
                 "from": {
-                    "file": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/values/styles.xml",
+                    "file": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,

@@ -1,18 +1,26 @@
 [
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/xml/preferences.xml",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/xml/preferences.xml"
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\xml\\preferences.xml"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/xml/preferences.xml",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/xml/preferences.xml"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\xml\\preferences.xml"
     },
     {
-        "merged": "/Users/peter/dev/MPA/BioMKR/app/build/intermediates/res/merged/debug/xml/accessory_filter.xml",
-        "source": "/Users/peter/dev/MPA/BioMKR/app/src/main/res/xml/accessory_filter.xml"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\xml\\accessory_filter.xml",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\xml\\accessory_filter.xml"
     },
     {
-        "merged": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/build/intermediates/res/merged/debug/xml/accessory_filter.xml",
-        "source": "/Users/peter/dev/MPA/GlucoPredBLE_AS/app/src/main/res/xml/accessory_filter.xml"
+        "merged": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
+        "source": "E:\\Users\\peter\\dev\\MPA\\GlucoPredBLE_AS\\app\\src\\main\\res\\xml\\preferences.xml"
+    },
+    {
+        "merged": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\xml\\accessory_filter.xml",
+        "source": "E:\\Users\\peter\\dev\\MPA\\BioMKR\\app\\src\\main\\res\\xml\\accessory_filter.xml"
+    },
+    {
+        "merged": "E:\\MPA\\Code\\BioMKR\\app\\build\\intermediates\\res\\merged\\debug\\xml\\accessory_filter.xml",
+        "source": "E:\\MPA\\Code\\BioMKR\\app\\src\\main\\res\\xml\\accessory_filter.xml"
     }
 ]
