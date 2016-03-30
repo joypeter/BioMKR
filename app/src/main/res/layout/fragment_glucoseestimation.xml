@@ -10,12 +10,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
+    <com.glucopred.view.DialChartView
+        android:id="@+id/dial_chart"
+        android:layout_width="match_parent"
+        android:layout_height="230dip"
+        android:layout_gravity="center"
+        />
+    <!--<TextView
         android:id="@+id/txtEstimated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="--.-"
+        android:text="&#45;&#45;.-"
         android:textSize="50sp" />
 
     <TextView
@@ -23,14 +29,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="mmol/l"
-        android:textSize="20sp" />
+        android:textSize="20sp" />-->
 
-    <LinearLayout
-        android:id="@+id/prediction_plot"
+    <com.glucopred.view.TrendChartView
+        android:id="@+id/trend_chart"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="7dp"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+    <!--<com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/trend_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
 
 </LinearLayout>

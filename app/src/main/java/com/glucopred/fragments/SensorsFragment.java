@@ -52,7 +52,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
     private EstimatorService mEstimatorService;
 	
 	// Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 3000;
+    private static final long SCAN_PERIOD = 10 * 1000;
 	
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -105,8 +105,9 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
  
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
+        /*final BluetoothManager bluetoothManager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();*/
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
  
         // Checks if Bluetooth is supported on the device.
         if (mBluetoothAdapter == null) {
@@ -127,7 +128,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 			@Override
 			public void onClick(View arg0) {
 		        if (mConnected) {
-		        	mProgress = ProgressDialog.show(getActivity(), "Precise", "Disconnecting", true);
+		        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name) , "Disconnecting", true);
 		        	mEstimatorService.disconnect();
 
 		        	// If no disconnect message is sent back, we pretend to have disconnected in any case
@@ -147,7 +148,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 		        	BluetoothDevice device = (BluetoothDevice)spinSensors.getSelectedItem();
 			        if (device == null) 
 			        	return;
-		        	mProgress = ProgressDialog.show(getActivity(), "Precise", "Connecting", true);
+		        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Connecting", true);
 		        	mEstimatorService.connect(device.getAddress()); // Send the select address to the EstimatorService and let it connect
 		        }
 			}
@@ -243,7 +244,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         if (enable) {
         	mDevices.clear();
         	_adapter_sensors = null;
-        	mProgress = ProgressDialog.show(getActivity(), "Precise", "Scanning for sensors", true);
+        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Scanning for sensors", true);
         	
             // Stops scanning after a pre-defined scan period.
             mHandler.postDelayed(new Runnable() {
