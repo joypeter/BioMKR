@@ -302,7 +302,8 @@ public class EstimatorService extends Service {
            });
        }
     };
-    
+
+    //scan device
      private void scanLeDevice(final boolean enable) {
          if (enable) {
              // Stops scanning after a pre-defined scan period.

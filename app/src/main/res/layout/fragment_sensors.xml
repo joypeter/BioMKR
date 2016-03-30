@@ -42,7 +42,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="Connect" />
-
+        <!--android:nestedScrollingEnabled="false"-->
             <Button
                 android:id="@+id/buttonScan"
                 android:layout_width="fill_parent"
