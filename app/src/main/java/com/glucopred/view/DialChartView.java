@@ -22,6 +22,8 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.glucopred.R;
+
 /**
  * @ClassName DialChart例子
  * @Description  仪表盘例子
@@ -125,10 +127,10 @@ public class DialChartView extends GraphicalView {
         rlabels.add("14");
         rlabels.add("16");
         chart.addInnerTicksAxis(0.8f, rlabels);
-        chart.getPlotAxis().get(1).getAxisPaint().setColor(Color.rgb(0x20, 0xA7, 0x85));
-        chart.getPlotAxis().get(1).getTickLabelPaint().setColor(Color.rgb(0x20, 0xA7, 0x85));
+        chart.getPlotAxis().get(1).getAxisPaint().setColor(getResources().getColor(R.color.theme_color));
+        chart.getPlotAxis().get(1).getTickLabelPaint().setColor(getResources().getColor(R.color.theme_color));
         chart.getPlotAxis().get(1).getTickLabelPaint().setTextSize(30);
-        chart.getPlotAxis().get(1).getTickMarksPaint().setColor(Color.rgb(0x20, 0xA7, 0x85));
+        chart.getPlotAxis().get(1).getTickMarksPaint().setColor(getResources().getColor(R.color.theme_color));
         chart.getPlotAxis().get(1).hideAxisLine();
         chart.getPlotAxis().get(1).setDetailModeSteps(3);
 

@@ -3,13 +3,8 @@ package com.glucopred.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Toast;
+
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
@@ -20,8 +15,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.glucopred.R;
 
-import java.util.ArrayList;
 
 public class TrendChartView extends LineChart implements OnChartValueSelectedListener {
 
@@ -43,11 +38,11 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         initChart();
     }
 
-    private void initChart()
+    public void initChart()
     {
         setOnChartValueSelectedListener(this);
         setDrawGridBackground(false);
-        setDescription("History");
+        setDescription("History Glucose Level");
 
         // add an empty data object
         setData(new LineData());
@@ -131,7 +126,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         LineDataSet set = new LineDataSet(null, "Glucose Level");
         set.setLineWidth(2.5f);
         set.setCircleRadius(4.5f);
-        set.setColor(Color.rgb(0x20, 0xA7, 0x85));
+        set.setColor(getResources().getColor(R.color.theme_color));
         set.setCircleColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
         set.setAxisDependency(AxisDependency.LEFT);
