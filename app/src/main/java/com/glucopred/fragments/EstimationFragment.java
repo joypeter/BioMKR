@@ -86,6 +86,12 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		else
 			;//txtEstimated.setText( "--.-");
 	}
+
+	private void StoreData() {
+		if (_estCurrent != 0) {
+
+		}
+	}
 	
 	private void toast(final String message) {
 		getActivity().runOnUiThread(new Runnable() {
