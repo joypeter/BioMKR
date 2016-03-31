@@ -10,35 +10,72 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <com.glucopred.view.DialChartView
-        android:id="@+id/dial_chart"
-        android:layout_width="match_parent"
-        android:layout_height="230dip"
-        android:layout_gravity="center"
-        />
-    <!--<TextView
-        android:id="@+id/txtEstimated"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="&#45;&#45;.-"
-        android:textSize="50sp" />
+    <RelativeLayout
+        android:layout_width="348dp"
+        android:layout_height="212dp"
+        android:layout_gravity="center_horizontal">
+
+        <com.glucopred.view.DialChartView
+            android:id="@+id/dial_chart"
+            android:layout_width="216dp"
+            android:layout_height="193dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Target device:"
+            android:id="@+id/target_device_label"
+            android:layout_gravity="right"
+            android:layout_toEndOf="@id/dial_chart"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/theme_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/target_device_name"
+            android:layout_below="@+id/target_device_label"
+            android:layout_toEndOf="@+id/dial_chart"
+            android:textColor="@color/theme_color"
+            android:layout_marginRight="@dimen/activity_vertical_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connection Status:"
+            android:id="@+id/connection_status_label"
+            android:layout_below="@+id/target_device_name"
+            android:layout_toEndOf="@+id/dial_chart"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/theme_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/connection_status"
+            android:layout_below="@+id/connection_status_label"
+            android:layout_toEndOf="@+id/dial_chart"
+            android:textColor="@color/theme_color" />
+    </RelativeLayout>
+
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="mmol/l"
-        android:textSize="20sp" />-->
+        android:text="Trend: "
+        android:id="@+id/trend_text_label" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
     <com.glucopred.view.TrendChartView
         android:id="@+id/trend_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
-    <!--<com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/trend_chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+        android:layout_gravity="center"
+        />
 
 </LinearLayout>

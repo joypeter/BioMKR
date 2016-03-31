@@ -150,7 +150,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 			        if (device == null) 
 			        	return;
 		        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Connecting", true);
-		        	mEstimatorService.connect(device.getAddress()); // Send the select address to the EstimatorService and let it connect
+		        	mEstimatorService.connect(device.getName(), device.getAddress());
 		        }
 			}
 		});
@@ -192,15 +192,8 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	@Override
 	public void onInvalidateData() {
 		try {
-        	//if (bluetoothAddress != null && !mEstimatorService.isConnected())
-        		//mEstimatorService.connect(bluetoothAddress);
-//			BluetoothDevice[] arraystuff = new BluetoothDevice[1];
-//        	arraystuff[0] = mEstimatorService.connectedDevice();
-//            _adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
-			
         	if (_adapter_sensors != null) {
         		spinSensors.setAdapter(_adapter_sensors);
-        		//spinSensors.setSelection(_adapter_sensors.getPosition(bluetoothAddress));
         	}
 		} catch (Exception e) {
 			e.printStackTrace();

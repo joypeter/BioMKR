@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -38,8 +39,6 @@ import com.glucopred.utils.Utils;
 public class EstimatorService extends Service {
 	private final static String TAG = EstimatorService.class.getSimpleName();
 	private SharedPreferences mPrefs;
-
-	// http://stackoverflow.com/questions/17870189/android-4-3-bluetooth-low-energy-unstable
 	
 	// Notification bar
 	private NotificationManager _nm = null;
@@ -50,15 +49,18 @@ public class EstimatorService extends Service {
     private BluetoothManager mBluetoothManager;
  	private BluetoothAdapter mBluetoothAdapter;
  	private String mBluetoothDeviceAddress;
+    private String mBluetoothDeviceName;
     private BluetoothGatt mBluetoothGatt;
-    private int mConnectionState = STATE_DISCONNECTED;
+    private String mConnectionState = STATE_DISCONNECTED;
 
-    private static final int STATE_DISCONNECTED = 0;
-    private static final int STATE_CONNECTING = 1;
-    private static final int STATE_CONNECTED = 2;
+    public static final String STATE_DISCONNECTED = "Disconnected";
+    public static final String STATE_CONNECTING = "Connecting";
+    public static final String STATE_CONNECTED = "Connected";
+    public static final String STATE_SCANNING = "Scanning";
     
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    public static final String EXTRAS_DEVICE_CONN_STATUS = "DEVICE_CONN_STATUS";
     
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -70,6 +72,8 @@ public class EstimatorService extends Service {
             "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
+    public final static String ACTION_CONNECTION_STATUS =
+            "com.glucopred.service.CONNECTION_STATUS";
 
     public final static UUID UUID_HEART_RATE_MEASUREMENT =
             UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
@@ -81,7 +85,6 @@ public class EstimatorService extends Service {
             UUID.fromString(SampleGattAttributes.SENSOR_DATA_TX);
     
  	private boolean mScanning;
-    private Handler mHandler;
     
     public BluetoothGattCharacteristic _batteryLevel = null;
     public BluetoothGattCharacteristic _glucoseLevel = null;
@@ -90,8 +93,6 @@ public class EstimatorService extends Service {
 
     // Stops scanning after 4 seconds.
     private static final long SCAN_PERIOD = 4000;
-    
-    // https://developer.android.com/guide/topics/connectivity/bluetooth-le.html
     
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -106,12 +107,19 @@ public class EstimatorService extends Service {
                 broadcastUpdate(intentAction);
                 Log.i(TAG, "Connected to GATT server.");
                 Log.i(TAG, "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
+
                 updateNotification("Connected");
+                broadcastUpdate(ACTION_CONNECTION_STATUS);
+
+                Utils.changePref(mPrefs, "Connected_Device_Address", mBluetoothDeviceAddress);
+                Utils.changePref(mPrefs, "Connected_Device_Name", mBluetoothDeviceName);
+
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
+                broadcastUpdate(ACTION_CONNECTION_STATUS);
                 close();
 
                 // TODO Restart stack
@@ -172,6 +180,9 @@ public class EstimatorService extends Service {
     
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
+        intent.putExtra(EXTRAS_DEVICE_NAME, mBluetoothDeviceName);
+        intent.putExtra(EXTRAS_DEVICE_ADDRESS, mBluetoothDeviceAddress);
+        intent.putExtra(EXTRAS_DEVICE_CONN_STATUS, mConnectionState);
         sendBroadcast(intent);
     }
     
@@ -229,9 +240,7 @@ public class EstimatorService extends Service {
 			} else {
 				if (_sensorDatabuffer != null) {
 					_sensorDatabuffer.write(data);
-					
-					//System.out.println(data.length + " " + _sensorDatabuffer.size() + " " + _sensorDataBSONsize);
-				
+
 					// End condition
 					if (_sensorDatabuffer.size() == _sensorDataBSONsize) {
 						
@@ -244,7 +253,6 @@ public class EstimatorService extends Service {
 							intent.setAction(Utils.BLUETOOTH_NEWDATA);
 							for (int i=0; i<prof.y.size(); i++) {
 								intent.putExtra(prof.x.get(i).toString(), prof.y.get(i).floatValue());
-//								System.out.println(i + ": " + prof.x.get(i) + " " + prof.y.get(i) + " ");
 							}
 							sendBroadcast(intent);
 							float d = 1.0f / 0.5615f;
@@ -287,40 +295,23 @@ public class EstimatorService extends Service {
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-            //runOnUiThread(new Runnable() {
-        	new Handler().post(new Runnable() {	
-               @Override
-               public void run() {
-            	   String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device", null);
-            	   System.out.println("Found BLE device " + device.getName() + " " + device.getAddress() + " Connected_Device " + bluetoothAddress);
-        	
-            	   if (bluetoothAddress != null && device.getAddress().equals(bluetoothAddress) && !isConnected()) {
-            		   updateNotification("Connecting");
-            		   connect(device.getAddress());
-            	   }
-              }
-           });
+            String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device_Address", null);
+            System.out.println("Found BLE device " + device.getName() + " " + device.getAddress() + " Connected_Device " + bluetoothAddress);
+
+            if (bluetoothAddress != null && device.getAddress().equals(bluetoothAddress) && !isConnected()) {
+                updateNotification("Connecting");
+                connect(device.getName(), device.getAddress());
+            }
        }
     };
 
     //scan device
      private void scanLeDevice(final boolean enable) {
          if (enable) {
-             // Stops scanning after a pre-defined scan period.
-//        	 mHandler = new Handler();
-//             mHandler.postDelayed(new Runnable() {
-//                 @Override
-//                 public void run() {
-//                	 if (mScanning) {
-//                		 mScanning = false;
-//                		 mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                		 scanLeDevice(true);
-//                	 }
-//                 }
-//             }, SCAN_PERIOD);
-
              mScanning = true;
              mBluetoothAdapter.startLeScan(mLeScanCallback);
+             mConnectionState = STATE_SCANNING;
+             broadcastUpdate(ACTION_CONNECTION_STATUS);
          } else {
              mScanning = false;
              mBluetoothAdapter.stopLeScan(mLeScanCallback);
@@ -334,12 +325,20 @@ public class EstimatorService extends Service {
 		
 		// Initialize Bluetooth LE
 		if (initialize()) {
-			updateNotification("Scanning...");
-			scanLeDevice(true);
+            String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device_Address", null);
+            String name  = Utils.getPref(mPrefs, "Connected_Device_Name", null);
+            if (bluetoothAddress != null) {
+                System.out.println("Found previously connected device: " + name + "(" + bluetoothAddress + ")");
+                updateNotification("Connecting to " + name + "(" + bluetoothAddress + ")...");
+                connect(name, bluetoothAddress);
+            } else {
+                updateNotification("Scanning...");
+                scanLeDevice(true);
+            }
 		} else {
 			updateNotification("Bluetooth not enabled");
 		}
-		
+
         return Service.START_STICKY;
      }
 	
@@ -376,21 +375,14 @@ public class EstimatorService extends Service {
 	private void updateNotification(String message) {
     	if (_builder == null) {
     		_builder = new Notification.Builder(this).
-    				setContentTitle("GlucoPred")
+    				setContentTitle(getResources().getString(R.string.app_name))
     				.setSmallIcon(R.drawable.ic_launcher)
     				.setOnlyAlertOnce(true);
-	        
-//	        mBuilder.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class)
-//	        	.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_CANCEL_CURRENT));  
-	      }
+        }
     	_builder.setContentText(message);
     	
-    	// http://feras.us/blog/custom-rich-notification-view-android/
-    	// http://www.framentos.com/en/android-tutorial/2012/02/20/how-to-create-a-custom-notification-on-android/
     	Notification notification = _builder.getNotification();
-    	RemoteViews customNotifView = new RemoteViews(EstimatorService.this.getPackageName(), R.layout.notification_view);
-    	customNotifView.setTextViewText(R.id.text, "Hello World!");
-	
+
     	_nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	     _nm.notify(mNotificationId, notification);
     }
@@ -432,23 +424,14 @@ public class EstimatorService extends Service {
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
-    public boolean connect(final String address) {
+    public boolean connect(final String name, final String address) {
         if (mBluetoothAdapter == null || address == null) {
         	updateNotification("BluetoothAdapter not initialized or unspecified address");
+            mConnectionState = STATE_DISCONNECTED;
+            broadcastUpdate(ACTION_CONNECTION_STATUS);
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
         }
- 
-        // Previously connected device.  Try to reconnect.
-//        if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress) && mBluetoothGatt != null) {
-//        	Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
-//            if (mBluetoothGatt.connect()) {
-//                mConnectionState = STATE_CONNECTING;
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
  
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
@@ -460,9 +443,9 @@ public class EstimatorService extends Service {
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
+        mBluetoothDeviceName = name;
         mConnectionState = STATE_CONNECTING;
-        
-        Utils.changePref(mPrefs, "Connected_Device", mBluetoothDeviceAddress);
+        broadcastUpdate(ACTION_CONNECTION_STATUS);
         
         return true;
     }
@@ -479,7 +462,8 @@ public class EstimatorService extends Service {
             return;
         }
         mBluetoothGatt.disconnect();
-        Utils.changePref(mPrefs, "Connected_Device", null);
+        Utils.changePref(mPrefs, "Connected_Device_Address", null);
+        Utils.changePref(mPrefs, "Connected_Device_Name", null);
     }
     
     public boolean isConnected() {
