@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Messenger;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -43,13 +44,16 @@ public class EstimatorService extends Service {
 	// Notification bar
 	private NotificationManager _nm = null;
 	private Notification.Builder _builder = null;
-    private int mNotificationId = 2;    
+    private int mNotificationId = 2;
+
+    private  static EstimatorService sInstance;
     
     // Bluetooth
     private BluetoothManager mBluetoothManager;
  	private BluetoothAdapter mBluetoothAdapter;
  	private String mBluetoothDeviceAddress;
     private String mBluetoothDeviceName;
+    private BluetoothDevice mBluetoothDevice;
     private BluetoothGatt mBluetoothGatt;
     private String mConnectionState = STATE_DISCONNECTED;
 
@@ -57,7 +61,8 @@ public class EstimatorService extends Service {
     public static final String STATE_CONNECTING = "Connecting";
     public static final String STATE_CONNECTED = "Connected";
     public static final String STATE_SCANNING = "Scanning";
-    
+
+    public static final String EXTRAS_DEVICE = "DEVICE";
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static final String EXTRAS_DEVICE_CONN_STATUS = "DEVICE_CONN_STATUS";
@@ -90,6 +95,9 @@ public class EstimatorService extends Service {
     public BluetoothGattCharacteristic _glucoseLevel = null;
     public BluetoothGattCharacteristic _rx_sensorData = null;
     public BluetoothGattCharacteristic _tx_sensorData = null;
+
+    public final static int MSG_START_SCAN = 1;
+    public final static int MSG_STOP_SCAN = 2;
 
     // Stops scanning after 4 seconds.
     private static final long SCAN_PERIOD = 4000;
@@ -181,6 +189,7 @@ public class EstimatorService extends Service {
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         intent.putExtra(EXTRAS_DEVICE_NAME, mBluetoothDeviceName);
+        intent.putExtra(EXTRAS_DEVICE, mBluetoothDevice);
         intent.putExtra(EXTRAS_DEVICE_ADDRESS, mBluetoothDeviceAddress);
         intent.putExtra(EXTRAS_DEVICE_CONN_STATUS, mConnectionState);
         sendBroadcast(intent);
@@ -305,7 +314,7 @@ public class EstimatorService extends Service {
        }
     };
     
-     private void scanLeDevice(final boolean enable) {
+     public void scanLeDevice(final boolean enable) {
          if (enable) {
              mScanning = true;
              mBluetoothAdapter.startLeScan(mLeScanCallback);
@@ -338,8 +347,15 @@ public class EstimatorService extends Service {
 			updateNotification("Bluetooth not enabled");
 		}
 
+        sInstance = this;
+
         return Service.START_STICKY;
      }
+
+    public static EstimatorService getInstance()
+    {
+        return sInstance;
+    }
 	
 	@Override
 	public void onDestroy() {
@@ -348,13 +364,7 @@ public class EstimatorService extends Service {
 		close();
 		super.onDestroy();
 	}
-	 
-	public class LocalBinder extends Binder {
-        public EstimatorService getService() {
-            return EstimatorService.this;
-        }
-    }
- 
+
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
@@ -368,8 +378,25 @@ public class EstimatorService extends Service {
         //close();
         return super.onUnbind(intent);
     }
- 
-    private final IBinder mBinder = new LocalBinder();
+
+    // receive message from SensorsFragment
+    final Messenger mMessenger = new Messenger(new IncomingHandler());
+    public class IncomingHandler extends Handler { // Handler of incoming messages from clients.
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_START_SCAN:
+                    scanLeDevice(true);
+                    break;
+                case MSG_STOP_SCAN:
+                    scanLeDevice(false);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
+    private final IBinder mBinder = mMessenger.getBinder();
 	
 	private void updateNotification(String message) {
     	if (_builder == null) {
@@ -443,6 +470,7 @@ public class EstimatorService extends Service {
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mBluetoothDeviceName = name;
+        mBluetoothDevice = device;
         mConnectionState = STATE_CONNECTING;
         broadcastUpdate(ACTION_CONNECTION_STATUS);
         

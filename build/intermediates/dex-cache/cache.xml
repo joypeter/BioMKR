@@ -1,2 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/exploded-aar/com.ogaclejapan.smarttablayout/utils-v13/1.6.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="15e4e791b9d3f9246fe3ab856493803a3f4eb6b1">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/com.ogaclejapan.smarttablayout-utils-v13-1.6.0_ab0d8ca5fcb8ca88636da39bc41148dd8084d22a.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/exploded-aar/com.ogaclejapan.smarttablayout/library/1.6.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="773103b47908c3026873309dd5d968b7fc6556eb">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/com.ogaclejapan.smarttablayout-library-1.6.0_18057be5e3e8158a9f4994ef1f7ebb6c23d44535.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/app/libs/mongo-2.10.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09e2c2835b0126a48183ed42129e53b6eb6e259b">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/mongo-2.10.1_c084dd4aded7d09680b1fac023c006e916fa3ce4.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/app/libs/jackson-all-1.9.11.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="62246d59c8188052433b28c5fbd50e4e71804f26">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/jackson-all-1.9.11_8fc1f53cc7ceba953615183b365f40069a2e0fe7.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/exploded-aar/com.ogaclejapan.smarttablayout/utils-v4/1.6.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7b6793eb8e6071cd11334f1b0af8dca2e662a561">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/com.ogaclejapan.smarttablayout-utils-v4-1.6.0_991ba20a4bc970a0da2a9b90e670744b48a62f51.jar" />
+    </item>
+    <item
+        jar="/Users/peter/dev/MPA/BioMKR/xcl-charts/xcl-charts.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="123db96349684a0d29a139c7d2953bba27f2d25d">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/xcl-charts_2726abab40e4fcfa932736515c76bceae3664807.jar" />
+    </item>
+    <item
+        jar="/Users/peter/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0_0c3ab508c7ebf32c24d6495beaacac12c0259d36.jar" />
+    </item>
+    <item
+        jar="/Users/peter/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.2.3/f474798fde03291398b1a016118b9809a79550b7/MPAndroidChart-v2.2.3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="f474798fde03291398b1a016118b9809a79550b7">
+        <dex dex="/Users/peter/dev/MPA/BioMKR/app/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.2.3_8b983a56e9514b21c7ed9a9319373807876e664f.jar" />
+    </item>
+
+</items>

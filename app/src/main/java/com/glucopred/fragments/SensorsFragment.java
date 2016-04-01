@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,6 +16,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -50,6 +52,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
     private List<BluetoothDevice> mDevices;
     ProgressDialog mProgress;
     private EstimatorService mEstimatorService;
+	private IBinder binder;
 	
 	// Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10 * 1000;
@@ -59,7 +62,8 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
  
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
-        	mEstimatorService = ((EstimatorService.LocalBinder) service).getService();
+			binder = service;
+        	mEstimatorService = EstimatorService.getInstance();
             if (!mEstimatorService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
             }
@@ -83,6 +87,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
  
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
+			binder = null;
         	mEstimatorService = null;
         }
     };
@@ -166,6 +171,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+			Bundle extras = intent.getExtras();
             if (EstimatorService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
                 if (mProgress != null)
@@ -181,7 +187,13 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 //                displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (EstimatorService.ACTION_DATA_AVAILABLE.equals(action)) {
 //                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-            }
+			} else if (EstimatorService.ACTION_CONNECTION_STATUS.equals(action)) {
+				BluetoothDevice device = extras.getParcelable(EstimatorService.EXTRAS_DEVICE);
+				if (null != device) {
+					mDevices.add(device);
+				}
+			}
+
             
             buttonScan.setEnabled(!mConnected);
             spinSensors.setEnabled(!mConnected);
@@ -231,6 +243,20 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 		super.onDestroyView();
 		getActivity().unbindService(mServiceConnection);
 	};
+
+	private void sendMessage(int msgid)
+	{
+		if (binder != null) {
+			Messenger messenger = new Messenger(binder);
+			Message msg = Message.obtain(null, msgid);
+			try {
+				messenger.send(msg);
+			}
+			catch (RemoteException e) {
+				System.out.println("failed to send message to mEstimatorService: " + e.getMessage());
+			}
+		}
+	}
 	
 	// Scan for nearby devices
 	private void scanLeDevice(final boolean enable) {
@@ -241,27 +267,25 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         	
             // Stops scanning after a pre-defined scan period.
             mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    mProgress.dismiss();
-                    
-                    BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
-                    int i= 0;
-                    for (BluetoothDevice device : mDevices)
-                    	arraystuff[i++] = device;
-                    _adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
-                    
-                    onInvalidateData();
-                }
-            }, SCAN_PERIOD);
- 
-            mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
+				@Override
+				public void run() {
+					sendMessage(mEstimatorService.MSG_STOP_SCAN);
+					mProgress.dismiss();
+
+					BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
+					int i = 0;
+					for (BluetoothDevice device : mDevices)
+						arraystuff[i++] = device;
+					_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
+
+					onInvalidateData();
+				}
+			}, SCAN_PERIOD);
+
+			sendMessage(mEstimatorService.MSG_START_SCAN);
+            buttonScan.setText("MMMMMMMMMMMMMMMMMMMMMMMMMMMM");
         } else {
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+			sendMessage(mEstimatorService.MSG_STOP_SCAN);
         }
         onInvalidateData();
     }
@@ -281,15 +305,15 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	
 	private void toast(final String message) {
         getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Context context = getActivity();
-                int duration = Toast.LENGTH_LONG;
+			@Override
+			public void run() {
+				Context context = getActivity();
+				int duration = Toast.LENGTH_LONG;
 
-                Toast toast = Toast.makeText(context, message, duration);
-                toast.show();
-            }
-        });
+				Toast toast = Toast.makeText(context, message, duration);
+				toast.show();
+			}
+		});
     }	
 
 	
