@@ -283,7 +283,6 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 			}, SCAN_PERIOD);
 
 			sendMessage(mEstimatorService.MSG_START_SCAN);
-            buttonScan.setText("MMMMMMMMMMMMMMMMMMMMMMMMMMMM");
         } else {
 			sendMessage(mEstimatorService.MSG_STOP_SCAN);
         }
