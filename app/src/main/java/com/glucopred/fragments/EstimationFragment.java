@@ -32,11 +32,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 	private String connection_status = EstimatorService.STATE_DISCONNECTED;
 	private String device_name = "";
 	private String device_address = "";
-
-	double roundOneDecimal(double d) {
-		DecimalFormat twoDForm = new DecimalFormat("#.#");
-		return Double.valueOf(twoDForm.format(d));
-	}
 	
 	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -45,7 +40,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         	
         	if (intent.getAction().equals(Utils.BLUETOOTH_NEWDATA)) {
         		_estCurrent = extras.getFloat("g7");
-				_estCurrent = roundOneDecimal(_estCurrent);
+				_estCurrent = Utils.roundOneDecimal(_estCurrent);
         		UpdateUI(); 
         	} else if (intent.getAction().equals(EstimatorService.ACTION_CONNECTION_STATUS)) {
 				connection_status = extras.getString(EstimatorService.EXTRAS_DEVICE_CONN_STATUS);
@@ -91,6 +86,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		connection_status_textview.setText(connection_status);
 		if (!device_name.isEmpty()) {
 			device_name_textview.setText(device_name + "(" + device_address + ")");
+		} else {
+			device_name_textview.setText("");
 		}
 	}
 
@@ -103,26 +100,9 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		}
 
 		if (_estCurrent != 0) {
-			//txtEstimated.setText(String.format("%.01f", _estCurrent));
 			dial_chart.setCurrentStatus((float) _estCurrent);
 			dial_chart.invalidate();
 			trend_chart.addEntry((float) _estCurrent);
 		}
-		else
-			;//txtEstimated.setText( "--.-");
 	}
-	
-	private void toast(final String message) {
-		getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Context context = getActivity().getApplicationContext();
-                int duration = Toast.LENGTH_LONG;
-
-                Toast toast = Toast.makeText(context, message, duration);
-                toast.show();
-            }
-        });
-    }
-
 }

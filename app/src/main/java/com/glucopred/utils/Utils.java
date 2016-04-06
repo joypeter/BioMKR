@@ -11,9 +11,10 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.FloatMath;
 
+import java.text.DecimalFormat;
+
 public class Utils {
     static final String LOG_TAG = "PRECISE";
-    //public static final String ESTIMATOR_NEWDATA = "com.glucopred.precise.estimator.EstimatorService.action.ESTIMATOR_NEWDATA";
     public static final String BLUETOOTH_NEWDATA = "com.glucopred.service.EstimatorService.action.BLUETOOTH_NEWDATA";
 
     public static char[] getHexValue(byte[] array){
@@ -190,22 +191,8 @@ public class Utils {
         return intentFilter;
     }
 
-//	public static Credentials createUserObject(SharedPreferences pref) {
-//		Credentials u = new Credentials();
-//		
-//		u.username = pref.getString("username", null);
-//  	    u.password = pref.getString("userpasswd", null);
-//  	    if (pref.getString("usersecret", null) != null)
-//  	    	u.otp_verificationcode = GoogleAuthenticator.calculateValidationCode(pref.getString("usersecret", null));
-//
-//  	    u.useSecureService = !pref.getString("pref_role", "alt").equals("alt"); // use alternative IP as default
-//  	    u.useURL = pref.getString("pref_role", "alt");
-//  	    u.altIP = pref.getString("pref_comip", "192.168.1.100");
-//  	    u.altPort = pref.getString("pref_comport", "8081");
-//  	    u.configid = Integer.parseInt(pref.getString("pref_configid", "1"));
-//  	    u.autoupdate = pref.getBoolean("pref_autoupdate", true);
-//		
-//		return u;
-//	}
-    
+    public static double roundOneDecimal(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.#");
+        return Double.valueOf(twoDForm.format(d));
+    }
 }
