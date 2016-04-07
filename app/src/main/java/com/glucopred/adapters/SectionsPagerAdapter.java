@@ -13,6 +13,7 @@ import com.glucopred.fragments.EstimationFragment;
 import com.glucopred.fragments.FragmentEvent;
 import com.glucopred.fragments.ManualInputFragment;
 import com.glucopred.fragments.SensorsFragment;
+import com.glucopred.model.HistorianAgent;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -22,6 +23,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	
 	Context context;
 	Fragment[] fragments;
+	HistorianAgent historianAgent;
 
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
@@ -35,6 +37,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	public void invalidateFragments() {
 		for (int i=0; i<fragments.length;i++)
 			((FragmentEvent)fragments[i]).onInvalidateData();
+	}
+
+	public void setHistorian(HistorianAgent historian) {
+		this.historianAgent = historian;
 	}
 	
 	@Override

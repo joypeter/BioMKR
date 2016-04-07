@@ -1,5 +1,6 @@
 package com.glucopred.fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +10,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.glucopred.MainActivity;
 import com.glucopred.R;
+import com.glucopred.model.HistorianAgent;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
 import com.glucopred.view.DialChartView;
 import com.glucopred.view.TrendChartView;
+import com.glucopred.model.TrendData;
 
+import java.util.ArrayList;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class EstimationFragment extends Fragment implements FragmentEvent {
 	
@@ -32,6 +41,12 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 	private String connection_status = EstimatorService.STATE_DISCONNECTED;
 	private String device_name = "";
 	private String device_address = "";
+
+	private RadioGroup radioGroup;
+	private RadioButton radioWeek,radioYesterday,radioToday,radioRuntime;
+
+	private MainActivity mActivity;
+	private HistorianAgent mHistorianAgent;
 
 	double roundOneDecimal(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.#");
@@ -55,7 +70,16 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			}
         }
     };
-	
+
+	/*
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = (MainActivity) activity;
+		mHistorianAgent = mActivity.getHistorianAgent();
+	}
+	*/
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_glucoseestimation, container, false);
@@ -65,17 +89,49 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 		dial_chart = (DialChartView)view.findViewById(R.id.dial_chart);
 		trend_chart = (TrendChartView)view.findViewById(R.id.trend_chart);
-		
+
 		IntentFilter filter = new IntentFilter();
         filter.addAction(Utils.BLUETOOTH_NEWDATA);
 		filter.addAction(EstimatorService.ACTION_CONNECTION_STATUS);
         getActivity().getApplicationContext().registerReceiver(mReceiver, filter);
 
+		mActivity = (MainActivity)  getActivity();
+		mHistorianAgent = mActivity.getHistorianAgent();
+
 		UpdateConnectionStatus();
         UpdateUI();
+
+		radioGroup=(RadioGroup)view.findViewById(R.id.radiogroup);
+		radioWeek = (RadioButton)view.findViewById(R.id.radioButtonWeek);
+		radioYesterday = (RadioButton)view.findViewById(R.id.radioButtonYesterday);
+		radioToday = (RadioButton)view.findViewById(R.id.radioButtonToday);
+		radioRuntime = (RadioButton)view.findViewById(R.id.radioButtonRuntime);
+
+		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				ArrayList<TrendData> trendData = new ArrayList<TrendData>();
+				if (checkedId == radioWeek.getId()) {
+					trendData = mHistorianAgent.getWeekData();
+				} else if (checkedId == radioYesterday.getId()) {
+					trendData = mHistorianAgent.getYesterdayData();
+				} else if (checkedId == radioToday.getId()) {
+					trendData = mHistorianAgent.getTodayData();
+				} else if (checkedId == radioRuntime.getId()) {
+					trendData = mHistorianAgent.getCurrentData(20);
+				}
+
+				trend_chart.initChart();
+				for (int i = 0; i < trendData.size(); i++) {
+					TrendData td = (TrendData) trendData.get(i);
+					trend_chart.addEntry(td.getTimeString(), (float) td.getValue());
+				}
+			}
+		});
 		return view;
 	}
-	
+
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
@@ -106,16 +162,10 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			//txtEstimated.setText(String.format("%.01f", _estCurrent));
 			dial_chart.setCurrentStatus((float) _estCurrent);
 			dial_chart.invalidate();
-			trend_chart.addEntry((float) _estCurrent);
+			//trend_chart.addEntry((float) _estCurrent);
 		}
 		else
 			;//txtEstimated.setText( "--.-");
-	}
-
-	private void StoreData() {
-		if (_estCurrent != 0) {
-
-		}
 	}
 	
 	private void toast(final String message) {

@@ -52,9 +52,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         invalidate();
     }
 
-
-    public void addEntry(float entryValue) {
-
+    public void addEntry(String xvalue, float entryValue) {
         LineData data = getData();
 
         if(data != null) {
@@ -68,17 +66,18 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
             }
 
             // add a new x-value first
-            data.addXValue(set.getEntryCount() + "");
+            //data.addXValue(set.getEntryCount() + "");
+            data.addXValue(xvalue);
 
             // choose a random dataSet
-            int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
+            //int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
 
-            data.addEntry(new Entry(entryValue, set.getEntryCount()), randomDataSetIndex);
+            data.addEntry(new Entry(entryValue, set.getEntryCount()), 0);
 
             // let the chart know it's data has changed
             notifyDataSetChanged();
 
-            setVisibleXRangeMaximum(6);
+            setVisibleXRangeMaximum(24);
             setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
@@ -86,6 +85,12 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         }
 
         invalidate();
+    }
+
+    private int getDataSize() {
+        LineData data = getData();
+        int size = data.getXValCount();
+        return size;
     }
 
     private void removeLastEntry() {

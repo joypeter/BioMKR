@@ -25,7 +25,11 @@ import com.glucopred.adapters.SectionsPagerAdapter;
 import com.glucopred.adapters.SensorSpinAdapter;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
+import com.glucopred.model.HistorianAgent;
 
+import java.util.Random;
+import android.os.Handler;
+import android.os.Message;
 
 public class MainActivity extends FragmentActivity {
 
@@ -48,11 +52,13 @@ public class MainActivity extends FragmentActivity {
 	OnSharedPreferenceChangeListener mListener;
 	
 	ProgressDialog mProgress;
+
+    HistorianAgent mHistorianAgent;
 	
 	private boolean mConnected = false;
 	private EstimatorService mEstimatorService;
-	
-	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
@@ -63,6 +69,11 @@ public class MainActivity extends FragmentActivity {
                 mConnected = false;
                 invalidateOptionsMenu();
 //                clearUI();
+            } else if (action.equals(Utils.BLUETOOTH_NEWDATA)) {
+                Bundle extras = intent.getExtras();
+                double currentValue = extras.getFloat("g7");
+                //currentValue = roundOneDecimal(currentValue);
+                mHistorianAgent.pushCurrent(currentValue);
             }
         }
     };
@@ -89,6 +100,10 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+        //create historion manager
+        mHistorianAgent = new HistorianAgent(this);
+        //mHistorianAgent = HistorianAgent.getInstance();
+
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
@@ -112,10 +127,44 @@ public class MainActivity extends FragmentActivity {
 		registerReceiver(mGattUpdateReceiver, Utils.makeGattUpdateIntentFilter());
 		Intent gattServiceIntent = new Intent(this, EstimatorService.class);
 		bindService(gattServiceIntent, mServiceConnection, this.BIND_AUTO_CREATE);
-	}
-	
-	@Override
+
+        //use thread to test
+        Thread thread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                Random random = new Random();
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                        double currentValue = 4.0 + random.nextInt(10)/10.0;
+
+                        Message message=new Message();
+                        message.obj = currentValue;
+                        mHandler.sendMessage(message);
+                    }
+                    catch (Exception ex) {
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public Handler mHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
+            double currentValue = Double.parseDouble(msg.obj.toString());
+            mHistorianAgent.pushCurrent(currentValue);
+            super.handleMessage(msg);
+        }
+    };
+
+    @Override
 	protected void onDestroy() {
+        mHistorianAgent.close();
+
 		if (!mConnected && isMyServiceRunning())
             stopService(new Intent(this, EstimatorService.class));
 		
@@ -152,6 +201,10 @@ public class MainActivity extends FragmentActivity {
   	    	//new RefreshTask().execute(u);
   	    //} 
 	}
+
+    public HistorianAgent getHistorianAgent() {
+        return mHistorianAgent;
+    }
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item)
