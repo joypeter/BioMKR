@@ -11,6 +11,10 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.FloatMath;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Utils {
     static final String LOG_TAG = "PRECISE";
     //public static final String ESTIMATOR_NEWDATA = "com.glucopred.precise.estimator.EstimatorService.action.ESTIMATOR_NEWDATA";
@@ -188,6 +192,12 @@ public class Utils {
         intentFilter.addAction(EstimatorService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(EstimatorService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    public static String getTimeString(Date time, String format) {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        String timeString = df.format(time);
+        return timeString;
     }
 
 //	public static Credentials createUserObject(SharedPreferences pref) {

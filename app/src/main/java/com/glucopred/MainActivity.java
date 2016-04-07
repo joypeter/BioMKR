@@ -68,12 +68,7 @@ public class MainActivity extends FragmentActivity {
             } else if (EstimatorService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 mConnected = false;
                 invalidateOptionsMenu();
-//                clearUI();
-            } else if (action.equals(Utils.BLUETOOTH_NEWDATA)) {
-                Bundle extras = intent.getExtras();
-                double currentValue = extras.getFloat("g7");
-                //currentValue = roundOneDecimal(currentValue);
-                mHistorianAgent.pushCurrent(currentValue);
+//              clearUI();
             }
         }
     };
@@ -102,7 +97,6 @@ public class MainActivity extends FragmentActivity {
 
         //create historion manager
         mHistorianAgent = new HistorianAgent(this);
-        //mHistorianAgent = HistorianAgent.getInstance();
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -128,7 +122,7 @@ public class MainActivity extends FragmentActivity {
 		Intent gattServiceIntent = new Intent(this, EstimatorService.class);
 		bindService(gattServiceIntent, mServiceConnection, this.BIND_AUTO_CREATE);
 
-        //use thread to test
+        //use thread to test data
         Thread thread = new Thread(new Runnable()
         {
             public void run()
@@ -148,9 +142,10 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         });
-        thread.start();
+        //thread.start();
     }
 
+    //test handler
     public Handler mHandler = new Handler()
     {
         public void handleMessage(Message msg)

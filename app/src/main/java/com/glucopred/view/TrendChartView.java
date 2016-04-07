@@ -16,6 +16,11 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.glucopred.R;
+import com.glucopred.utils.Utils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class TrendChartView extends LineChart implements OnChartValueSelectedListener {
@@ -50,6 +55,13 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         getXAxis().setDrawGridLines(true);
 
         invalidate();
+    }
+
+    public void pushCurrentData(float entryValue) {
+        Date now = new Date();
+        String timeString = Utils.getTimeString(now, "HH:mm:ss");
+
+        addEntry(timeString, entryValue);
     }
 
     public void addEntry(String xvalue, float entryValue) {

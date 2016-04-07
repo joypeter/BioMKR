@@ -23,7 +23,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	
 	Context context;
 	Fragment[] fragments;
-	HistorianAgent historianAgent;
 
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
@@ -37,10 +36,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	public void invalidateFragments() {
 		for (int i=0; i<fragments.length;i++)
 			((FragmentEvent)fragments[i]).onInvalidateData();
-	}
-
-	public void setHistorian(HistorianAgent historian) {
-		this.historianAgent = historian;
 	}
 	
 	@Override
