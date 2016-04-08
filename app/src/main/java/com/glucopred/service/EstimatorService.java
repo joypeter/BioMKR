@@ -117,6 +117,7 @@ public class EstimatorService extends Service {
                 Log.i(TAG, "Connected to GATT server.");
                 Log.i(TAG, "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
 
+                mConnectionState = STATE_CONNECTED;
                 updateNotification("Connected");
                 broadcastUpdate(ACTION_CONNECTION_STATUS);
 
@@ -269,7 +270,8 @@ public class EstimatorService extends Service {
 								v=0;
 							else
 								v = v*100;
-							
+
+                            sendBroadcast(intent);
 							updateNotification("Glucose " + String.format("%.01f", prof.y.get(12)) + " mmol/l (" + String.format("%.00f", v) + "%)");
 							
 						}
@@ -312,8 +314,8 @@ public class EstimatorService extends Service {
             broadcastUpdate(ACTION_CONNECTION_STATUS);
 
             if (bluetoothAddress != null && device.getAddress().equals(bluetoothAddress) && !isConnected()) {
-                updateNotification("Connecting");
-                connect(device.getName(), device.getAddress());
+                //updateNotification("Connecting");
+                //connect(device.getName(), device.getAddress());
             }
        }
     };
@@ -343,7 +345,9 @@ public class EstimatorService extends Service {
             if (bluetoothAddress != null) {
                 System.out.println("Found previously connected device: " + name + "(" + bluetoothAddress + ")");
                 updateNotification("Connecting to " + name + "(" + bluetoothAddress + ")...");
-                connect(name, bluetoothAddress);
+                if (!isConnected()) {
+                    ;//connect(name, bluetoothAddress);
+                }
             } else {
                 updateNotification("Scanning...");
                 scanLeDevice(true);
@@ -456,6 +460,11 @@ public class EstimatorService extends Service {
      *         callback.
      */
     public boolean connect(final String name, final String address) {
+        if (isConnected()) {
+            Log.w(TAG, "device " + name + "(" + address + ")" + " is already connected");
+            return false;
+        }
+
         if (mBluetoothAdapter == null || address == null) {
         	updateNotification("BluetoothAdapter not initialized or unspecified address");
             mConnectionState = STATE_DISCONNECTED;
@@ -471,13 +480,13 @@ public class EstimatorService extends Service {
             return false;
         }
 
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
-        Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mBluetoothDeviceName = name;
         mBluetoothDevice = device;
-        mConnectionState = STATE_CONNECTING;
-        broadcastUpdate(ACTION_CONNECTION_STATUS);
+
+        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        Log.d(TAG, "Trying to create a new connection.");
+
         
         return true;
     }

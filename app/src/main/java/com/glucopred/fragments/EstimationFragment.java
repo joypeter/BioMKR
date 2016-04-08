@@ -145,7 +145,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private void UpdateConnectionStatus() {
 		connection_status_textview.setText(connection_status);
-		if (!device_name.isEmpty()) {
+		if (device_name != null && !device_name.isEmpty()) {
 			device_name_textview.setText(device_name + "(" + device_address + ")");
 		} else {
 			device_name_textview.setText("");
