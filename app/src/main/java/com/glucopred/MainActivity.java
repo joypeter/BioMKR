@@ -2,58 +2,51 @@ package com.glucopred;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.glucopred.adapters.SectionsPagerAdapter;
-import com.glucopred.adapters.SensorSpinAdapter;
+import com.glucopred.fragments.EstimationFragment;
+import com.glucopred.fragments.ManualInputFragment;
+import com.glucopred.fragments.SensorsFragment;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
 import com.glucopred.model.HistorianAgent;
+
+
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.Random;
 import android.os.Handler;
 import android.os.Message;
 
-public class MainActivity extends FragmentActivity {
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for eŒach of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+public class MainActivity extends AppCompatActivity {
 	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
+    SmartTabLayout viewPagerTab;
 	SharedPreferences mPrefs;
-	OnSharedPreferenceChangeListener mListener;
-	
-	ProgressDialog mProgress;
-
     HistorianAgent mHistorianAgent;
+
 	
 	private boolean mConnected = false;
 	private EstimatorService mEstimatorService;
@@ -78,10 +71,10 @@ public class MainActivity extends FragmentActivity {
  
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
-        	mEstimatorService = ((EstimatorService.LocalBinder) service).getService();
+        	mEstimatorService = EstimatorService.getInstance();
             
             // Check connection state if we resume
-            mConnected = mEstimatorService.isConnected(); 
+            mConnected = mEstimatorService.isConnected();
         }
  
         @Override
@@ -94,29 +87,37 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        setProgressBarIndeterminateVisibility(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
+        tab.addView(LayoutInflater.from(this).inflate(R.layout.nicer_pager, tab, false));
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), FragmentPagerItems.with(this)
+                .add("Manual Input", ManualInputFragment.class)
+                .add("Glucose", EstimationFragment.class)
+                .add("Sensor", SensorsFragment.class)
+                .create());
+
 
         //create historion manager
         mHistorianAgent = new HistorianAgent(this);
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
 
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(adapter);
+        //set Glucose as default tab
+        mViewPager.setCurrentItem(1);
+
+        viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(mViewPager);
+
 		
 		// Set up the preference manager and a change listener
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		// Instance field for listener
-//		mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-//		  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-//			  if (key.equals("pref_role"))   
-//				  refreshData();
-//		  }
-//		};
-//		mPrefs.registerOnSharedPreferenceChangeListener(mListener);
 		
 		registerReceiver(mGattUpdateReceiver, Utils.makeGattUpdateIntentFilter());
 		Intent gattServiceIntent = new Intent(this, EstimatorService.class);
@@ -180,21 +181,13 @@ public class MainActivity extends FragmentActivity {
     }
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		
-		return true;
-	}
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 	
 	public void refreshData() {
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		//Credentials u = Utils.createUserObject(pref);
-  	    
-  	    //if (u.username != null) {
-  	    	//mProgress = ProgressDialog.show(this, "Precise", "Refreshing buffer", true);
-  	    	//new RefreshTask().execute(u);
-  	    //} 
+        return;
 	}
 
     public HistorianAgent getHistorianAgent() {
@@ -211,7 +204,7 @@ public class MainActivity extends FragmentActivity {
         	return true;
         case R.id.action_settings:
         	// Launch Preference activity
-            startActivity(new Intent(this, PrefsActivity.class)); // http://www.chupamobile.com/tutorial/details/114/Android+Persistence+with+preferences+and+files/
+            startActivity(new Intent(this, PrefsActivity.class));
         	return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -230,37 +223,4 @@ public class MainActivity extends FragmentActivity {
             }
         });
     }
-	
-//	private class RefreshTask extends AsyncTask<Credentials, Integer, Boolean> {
-//		
-//	     protected Boolean doInBackground(Credentials... users) {
-//	    	// Try to log in to Precise
-//	    	 //if (ServiceSession.login(users[0])) 
-//	    		 //if (ServiceSession.getPatient(false) != null)
-//		    		 //if (ServiceSession.getModels(false) != null)
-//		    			 //if (ServiceSession.getPatients(false) != null)
-//		    				 //if (ServiceSession.getExperiments(false) != null)
-////		    					 if (ServiceSession.clearCache("estimates")) {
-////		    						 sendBroadcast(new Intent(Utils.ESTIMATOR_NEWDATA)); 
-//		    						 //return true;
-////		    					 }
-//	    		 
-//    		 return false;
-//	     }
-//
-//		protected void onProgressUpdate(Integer... progress) {
-//	         //setProgressPercent(progress[0]);
-//	     }
-//
-//	     protected void onPostExecute(Boolean result) {
-//	    	 mSectionsPagerAdapter.invalidateFragments();
-//	    	 mProgress.dismiss();
-//	    	 //if (!result) {
-//	    		 //if (ServiceSession.patient == null) 
-//	    			 //toast("The user name is not linked to any patient! Contact system administrator");  // TODO SOP
-//    			 //else
-//    				 //toast("Could not refresh!");
-//	    	 //}
-//	     }
-//	 }
 }

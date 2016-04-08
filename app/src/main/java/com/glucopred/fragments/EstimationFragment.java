@@ -13,10 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.github.mikephil.charting.data.LineData;
 import com.glucopred.MainActivity;
 import com.glucopred.R;
 import com.glucopred.model.HistorianAgent;
@@ -41,6 +38,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 	private String device_name = "";
 	private String device_address = "";
 
+
 	private RadioGroup radioGroup;
 	private RadioButton radioWeek,radioYesterday,radioToday,radioRuntime;
 	private int periodmode = 0;   //0:runtime; 1:today; 2: yester: 3:week
@@ -52,6 +50,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		DecimalFormat twoDForm = new DecimalFormat("#.#");
 		return Double.valueOf(twoDForm.format(d));
 	}
+
 	
 	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -60,9 +59,9 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         	
         	if (intent.getAction().equals(Utils.BLUETOOTH_NEWDATA)) {
         		_estCurrent = extras.getFloat("g7");
-				_estCurrent = roundOneDecimal(_estCurrent);
-
+				_estCurrent = Utils.roundOneDecimal(_estCurrent);
         		UpdateUI(_estCurrent);
+
         	} else if (intent.getAction().equals(EstimatorService.ACTION_CONNECTION_STATUS)) {
 				connection_status = extras.getString(EstimatorService.EXTRAS_DEVICE_CONN_STATUS);
 				device_name = extras.getString(EstimatorService.EXTRAS_DEVICE_NAME);
@@ -148,6 +147,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		connection_status_textview.setText(connection_status);
 		if (!device_name.isEmpty()) {
 			device_name_textview.setText(device_name + "(" + device_address + ")");
+		} else {
+			device_name_textview.setText("");
 		}
 	}
 
@@ -167,7 +168,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		}
 
 		if (value != 0) {
-			//txtEstimated.setText(String.format("%.01f", _estCurrent));
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
 
@@ -176,21 +176,5 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			}
 			mHistorianAgent.pushCurrent(value);
 		}
-		else
-			;//txtEstimated.setText( "--.-");
 	}
-	
-	private void toast(final String message) {
-		getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Context context = getActivity().getApplicationContext();
-                int duration = Toast.LENGTH_LONG;
-
-                Toast toast = Toast.makeText(context, message, duration);
-                toast.show();
-            }
-        });
-    }
-
 }

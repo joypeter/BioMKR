@@ -9,15 +9,15 @@ import com.glucopred.service.EstimatorService;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.util.FloatMath;
 
+import java.text.DecimalFormat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Utils {
     static final String LOG_TAG = "PRECISE";
-    //public static final String ESTIMATOR_NEWDATA = "com.glucopred.precise.estimator.EstimatorService.action.ESTIMATOR_NEWDATA";
     public static final String BLUETOOTH_NEWDATA = "com.glucopred.service.EstimatorService.action.BLUETOOTH_NEWDATA";
 
     public static char[] getHexValue(byte[] array){
@@ -65,7 +65,7 @@ public class Utils {
      }
     
     // see http://androidsnippets.com/distance-between-two-gps-coordinates-in-meter
-    public static double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+    /*public static double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
         float pk = (float) (180/3.14169);
 
         float a1 = lat_a / pk;
@@ -73,13 +73,13 @@ public class Utils {
         float b1 = lat_b / pk;
         float b2 = lng_b / pk;
 
-        float t1 = FloatMath.cos(a1)*FloatMath.cos(a2)*FloatMath.cos(b1)*FloatMath.cos(b2);
+        *//*float t1 = FloatMath.cos(a1)*FloatMath.cos(a2)*FloatMath.cos(b1)*FloatMath.cos(b2);
         float t2 = FloatMath.cos(a1)*FloatMath.sin(a2)*FloatMath.cos(b1)*FloatMath.sin(b2);
-        float t3 = FloatMath.sin(a1)*FloatMath.sin(b1);
+        float t3 = FloatMath.sin(a1)*FloatMath.sin(b1);*//*
         double tt = Math.acos(t1 + t2 + t3);
 
         return 6366000*tt;
-    }
+    }*/
     
 	public static double getMaxValue(double[] numbers){  
 		double maxValue = numbers[0];  
@@ -194,28 +194,16 @@ public class Utils {
         return intentFilter;
     }
 
+
+    public static double roundOneDecimal(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.#");
+        return Double.valueOf(twoDForm.format(d));
+    }
+
     public static String getTimeString(Date time, String format) {
         DateFormat df = new SimpleDateFormat("HH:mm:ss");
         String timeString = df.format(time);
         return timeString;
     }
 
-//	public static Credentials createUserObject(SharedPreferences pref) {
-//		Credentials u = new Credentials();
-//		
-//		u.username = pref.getString("username", null);
-//  	    u.password = pref.getString("userpasswd", null);
-//  	    if (pref.getString("usersecret", null) != null)
-//  	    	u.otp_verificationcode = GoogleAuthenticator.calculateValidationCode(pref.getString("usersecret", null));
-//
-//  	    u.useSecureService = !pref.getString("pref_role", "alt").equals("alt"); // use alternative IP as default
-//  	    u.useURL = pref.getString("pref_role", "alt");
-//  	    u.altIP = pref.getString("pref_comip", "192.168.1.100");
-//  	    u.altPort = pref.getString("pref_comport", "8081");
-//  	    u.configid = Integer.parseInt(pref.getString("pref_configid", "1"));
-//  	    u.autoupdate = pref.getBoolean("pref_autoupdate", true);
-//		
-//		return u;
-//	}
-    
 }
