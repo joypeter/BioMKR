@@ -350,7 +350,7 @@ public class EstimatorService extends Service {
                 }
             } else {
                 updateNotification("Scanning...");
-                scanLeDevice(true);
+                //scanLeDevice(true);
             }
 		} else {
 			updateNotification("Bluetooth not enabled");
