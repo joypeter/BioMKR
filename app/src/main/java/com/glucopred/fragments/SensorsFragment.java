@@ -29,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.glucopred.R;
@@ -97,6 +98,8 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_sensors, container, false);
+        TextView textView = (TextView)view.findViewById(R.id.textView1);
+        textView.setText(getResources().getString(R.string.app_name) + " devices");
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		spinSensors = (Spinner)view.findViewById(R.id.spinner_sensors);
 		mHandler = new Handler();

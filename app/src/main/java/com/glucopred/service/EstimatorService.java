@@ -305,6 +305,10 @@ public class EstimatorService extends Service {
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+            if (!device.getName().equals(getResources().getString(R.string.device_name))) {
+                return;
+            }
+
             String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device_Address", null);
             System.out.println("Found BLE device " + device.getName() + " " + device.getAddress() + ", Connected_Device: " + bluetoothAddress);
 
