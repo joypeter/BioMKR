@@ -117,7 +117,6 @@ public class EstimatorService extends Service {
                 Log.i(TAG, "Connected to GATT server.");
                 Log.i(TAG, "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
 
-                mConnectionState = STATE_CONNECTED;
                 updateNotification("Connected");
                 broadcastUpdate(ACTION_CONNECTION_STATUS);
 
@@ -131,9 +130,11 @@ public class EstimatorService extends Service {
                 broadcastUpdate(intentAction);
                 broadcastUpdate(ACTION_CONNECTION_STATUS);
                 close();
-                
-                updateNotification("Scanning...");
-    			scanLeDevice(true);
+
+                if (mBluetoothDeviceName != null && mBluetoothDeviceAddress != null) {
+                    updateNotification("Connecting...");
+                    connect(mBluetoothDeviceName, mBluetoothDeviceAddress);
+                }
             }
         }
  
@@ -333,13 +334,14 @@ public class EstimatorService extends Service {
              broadcastUpdate(ACTION_CONNECTION_STATUS);
          } else {
              mScanning = false;
+             mConnectionState = STATE_DISCONNECTED;
+             broadcastUpdate(ACTION_CONNECTION_STATUS);
              mBluetoothAdapter.stopLeScan(mLeScanCallback);
          }
      }
      
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// Initialize Bluetooth LE
@@ -350,11 +352,11 @@ public class EstimatorService extends Service {
                 System.out.println("Found previously connected device: " + name + "(" + bluetoothAddress + ")");
                 updateNotification("Connecting to " + name + "(" + bluetoothAddress + ")...");
                 if (!isConnected()) {
-                    ;//connect(name, bluetoothAddress);
+                    connect(name, bluetoothAddress);
                 }
             } else {
                 updateNotification("Scanning...");
-                //scanLeDevice(true);
+                scanLeDevice(true);
             }
 		} else {
 			updateNotification("Bluetooth not enabled");
@@ -490,6 +492,8 @@ public class EstimatorService extends Service {
 
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
+        mConnectionState = STATE_CONNECTING;
+        broadcastUpdate(ACTION_CONNECTION_STATUS);
 
         
         return true;
@@ -514,7 +518,32 @@ public class EstimatorService extends Service {
     public boolean isConnected() {
     	return (mConnectionState == STATE_CONNECTED);
     }
-    
+
+    public boolean hasPreviousDevice() {
+        String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device_Address", null);
+        String name  = Utils.getPref(mPrefs, "Connected_Device_Name", null);
+
+        return name != null && bluetoothAddress != null;
+    }
+
+    public String getPreviousDeviceName() {
+        if (!hasPreviousDevice())
+            return null;
+
+        return Utils.getPref(mPrefs, "Connected_Device_Name", null);
+    }
+
+    public String getPreviousDeviceAddress() {
+        if (!hasPreviousDevice())
+            return null;
+
+        return Utils.getPref(mPrefs, "Connected_Device_Address", null);
+    }
+
+    public String getConnectionStatus() {
+        return mConnectionState;
+    }
+
     public BluetoothDevice connectedDevice() {
 		if (mBluetoothAdapter == null || mBluetoothGatt == null || mConnectionState != STATE_CONNECTED) return null;
 		
@@ -581,13 +610,6 @@ public class EstimatorService extends Service {
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
             mBluetoothGatt.writeDescriptor(descriptor);
         }
-        
-//        if (UUID_BATTERY_LEVEL.equals(characteristic.getUuid())) {
-//            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(UUID.fromString(SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-//            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//            mBluetoothGatt.writeDescriptor(descriptor);
-//        }
-        
     }
  
     /**

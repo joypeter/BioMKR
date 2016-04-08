@@ -6,7 +6,6 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        multiDexEnabled true
         applicationId "com.glucopred"
         minSdkVersion 18
         targetSdkVersion 18

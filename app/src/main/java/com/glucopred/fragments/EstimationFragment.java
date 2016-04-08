@@ -1,11 +1,18 @@
 package com.glucopred.fragments;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +23,7 @@ import android.widget.TextView;
 
 import com.glucopred.MainActivity;
 import com.glucopred.R;
+import com.glucopred.adapters.SensorSpinAdapter;
 import com.glucopred.model.HistorianAgent;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
@@ -27,7 +35,7 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 public class EstimationFragment extends Fragment implements FragmentEvent {
-	
+	private final static String TAG = EstimationFragment.class.getSimpleName();
 	private TextView device_name_textview = null;
 	private TextView connection_status_textview = null;
 	DialChartView dial_chart = null;
@@ -45,6 +53,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private MainActivity mActivity;
 	private HistorianAgent mHistorianAgent;
+	private EstimatorService mEstimatorService;
+	private IBinder binder;
 
 	double roundOneDecimal(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.#");
@@ -71,6 +81,29 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         }
     };
 
+	private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName componentName, IBinder service) {
+			binder = service;
+			mEstimatorService = EstimatorService.getInstance();
+			if (!mEstimatorService.initialize()) {
+				Log.e(TAG, "Unable to initialize Bluetooth");
+			}
+
+			device_address = mEstimatorService.getPreviousDeviceAddress();
+			device_name = mEstimatorService.getPreviousDeviceName();
+			connection_status = mEstimatorService.getConnectionStatus();
+			UpdateConnectionStatus();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+			binder = null;
+			mEstimatorService = null;
+		}
+	};
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_glucoseestimation, container, false);
@@ -95,8 +128,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		radioGroup=(RadioGroup)view.findViewById(R.id.radiogroup);
 		radioWeek = (RadioButton)view.findViewById(R.id.radioButtonWeek);
 		radioYesterday = (RadioButton)view.findViewById(R.id.radioButtonYesterday);
-		radioToday = (RadioButton)view.findViewById(R.id.radioButtonToday);
-		radioRuntime = (RadioButton)view.findViewById(R.id.radioButtonRuntime);
+		radioToday = (RadioButton) view.findViewById(R.id.radioButtonToday);
+		radioRuntime = (RadioButton) view.findViewById(R.id.radioButtonRuntime);
 
 		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
@@ -119,7 +152,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 				trend_chart.refreshChart();
 				for (int i = 0; i < trendData.size(); i++) {
 					TrendData td = (TrendData) trendData.get(i);
-					float value = (float)roundOneDecimal(td.getValue());
+					float value = (float) roundOneDecimal(td.getValue());
 					trend_chart.addEntry(td.getTimeString(), value);
 				}
 
@@ -128,6 +161,11 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 		periodmode = 0;
 		radioRuntime.setChecked(true);
+
+		Intent gattServiceIntent = new Intent(getActivity(), EstimatorService.class);
+		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
+		getActivity().getApplicationContext().registerReceiver(mReceiver, Utils.makeGattUpdateIntentFilter());
+
 		return view;
 	}
 
