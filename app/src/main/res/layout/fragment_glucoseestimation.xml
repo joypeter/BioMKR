@@ -71,19 +71,10 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Week"
-            android:id="@+id/radioButtonWeek"
+            android:text="Runtime"
+            android:id="@+id/radioButtonRuntime"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yesterday"
-            android:id="@+id/radioButtonYesterday"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
+            android:layout_alignParentEnd="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -96,10 +87,18 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Runtime"
-            android:id="@+id/radioButtonRuntime"
+            android:text="Yesterday"
+            android:id="@+id/radioButtonYesterday"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerHorizontal="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Week"
+            android:id="@+id/radioButtonWeek"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
     </RadioGroup>
 

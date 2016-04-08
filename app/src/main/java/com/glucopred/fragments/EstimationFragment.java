@@ -61,7 +61,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         		_estCurrent = extras.getFloat("g7");
 				_estCurrent = roundOneDecimal(_estCurrent);
 
-        		UpdateUI(); 
+        		UpdateUI(_estCurrent);
         	} else if (intent.getAction().equals(EstimatorService.ACTION_CONNECTION_STATUS)) {
 				connection_status = extras.getString(EstimatorService.EXTRAS_DEVICE_CONN_STATUS);
 				device_name = extras.getString(EstimatorService.EXTRAS_DEVICE_NAME);
@@ -90,7 +90,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		mHistorianAgent = mActivity.getHistorianAgent();
 
 		UpdateConnectionStatus();
-        UpdateUI();
+		InitializeUI();
 
 		radioGroup=(RadioGroup)view.findViewById(R.id.radiogroup);
 		radioWeek = (RadioButton)view.findViewById(R.id.radioButtonWeek);
@@ -116,10 +116,12 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 					periodmode = 0;
 				}
 
+				trend_chart.clear();
 				trend_chart.initChart();
 				for (int i = 0; i < trendData.size(); i++) {
 					TrendData td = (TrendData) trendData.get(i);
-					trend_chart.addEntry(td.getTimeString(), (float) td.getValue());
+					float value = (float)roundOneDecimal(td.getValue());
+					trend_chart.addEntry(td.getTimeString(), value);
 				}
 			}
 		});
@@ -148,23 +150,30 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		}
 	}
 
-	private void UpdateUI() {
-		if (Double.isNaN(_estCurrent)) {
-			dial_chart.setCurrentStatus(0f);
-			trend_chart.clear();
-			trend_chart.initChart();
+	private void InitializeUI() {
+		dial_chart.setCurrentStatus(0f);
+		trend_chart.clear();
+		trend_chart.initChart();
+		return;
+	}
+
+	private void UpdateUI(double value) {
+		if (Double.isNaN(value)) {
+			//dial_chart.setCurrentStatus(0f);
+			//trend_chart.clear();
+			//trend_chart.initChart();
 			return;
 		}
 
-		if (_estCurrent != 0) {
+		if (value != 0) {
 			//txtEstimated.setText(String.format("%.01f", _estCurrent));
-			dial_chart.setCurrentStatus((float) _estCurrent);
+			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
 
 			if (periodmode == 0) {
-				trend_chart.pushCurrentData((float) _estCurrent);
+				trend_chart.pushCurrentData((float) value);
 			}
-			mHistorianAgent.pushCurrent(_estCurrent);
+			mHistorianAgent.pushCurrent(value);
 		}
 		else
 			;//txtEstimated.setText( "--.-");

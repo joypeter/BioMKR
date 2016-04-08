@@ -8,18 +8,18 @@ import io.realm.annotations.Ignore;
  * Created by Ju on 2016/3/31.
  */
 public class GlucopredData extends RealmObject {
-    private long timeStamp;
+    private long timestamp;
     private double value;
 
     @Ignore
     private Date dateTime;
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public long getTimeStamp() {
-        return this.timeStamp;
+    public long getTimestamp() {
+        return this.timestamp;
     }
 
     public void setValue(double value) {
@@ -32,7 +32,7 @@ public class GlucopredData extends RealmObject {
 
     public Date getDateTime() {
         if (dateTime == null)
-            dateTime = new Date(timeStamp);
+            dateTime = new Date(timestamp);
         return this.dateTime;
     }
 }
