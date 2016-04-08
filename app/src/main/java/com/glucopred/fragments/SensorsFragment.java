@@ -289,7 +289,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	// Scan for nearby bluetooth devices
 	private void scanLeDevice(final boolean enable) {
         if (enable) {
-        	mDevices.clear();
+        	//mDevices.clear();
         	_adapter_sensors = null;
         	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Scanning for sensors", true, true, mProgressOnCancel);
         	
