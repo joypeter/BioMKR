@@ -441,45 +441,9 @@ public class EstimatorService extends Service {
             Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
             return false;
         }
-
-        //use thread to test data
-        Thread thread = new Thread(new Runnable()
-        {
-            public void run()
-            {
-                Random random = new Random();
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                        double currentValue = 4.0 + random.nextInt(10)/10.0;
-
-                        Message message=new Message();
-                        message.obj = currentValue;
-                        mHandler.sendMessage(message);
-                    }
-                    catch (Exception ex) {
-                    }
-                }
-            }
-        });
-        //thread.start();
  
         return true;
     }
-
-    public Handler mHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            double currentValue = Double.parseDouble(msg.obj.toString());
-            Intent intent = new Intent();
-            intent.setAction(Utils.BLUETOOTH_NEWDATA);
-            intent.putExtra("g7", currentValue);
-            sendBroadcast(intent);
-            super.handleMessage(msg);
-            updateNotification("Glucose");
-        }
-    };
     
     /**
      * Connects to the GATT server hosted on the Bluetooth LE device.
