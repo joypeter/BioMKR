@@ -52,7 +52,7 @@ public class HistorianAgent {
 
             realm.beginTransaction();
             while (timestamp < endTimestamp) {
-                double value = 7.0 + random.nextInt(10) / 10.0;
+                double value = 5.0 + random.nextInt(10) / 10.0;
 
                 GlucopredData gd = realm.createObject(GlucopredData.class);
                 gd.setTimestamp(timestamp);
