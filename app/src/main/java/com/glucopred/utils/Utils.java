@@ -9,9 +9,12 @@ import com.glucopred.service.EstimatorService;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.util.FloatMath;
 
 import java.text.DecimalFormat;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class Utils {
     static final String LOG_TAG = "PRECISE";
@@ -191,8 +194,16 @@ public class Utils {
         return intentFilter;
     }
 
+
     public static double roundOneDecimal(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.#");
         return Double.valueOf(twoDForm.format(d));
     }
+
+    public static String getTimeString(Date time, String format) {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        String timeString = df.format(time);
+        return timeString;
+    }
+
 }

@@ -58,8 +58,57 @@
             android:layout_below="@+id/connection_status_label"
             android:layout_toEndOf="@+id/dial_chart"
             android:textColor="@color/theme_color" />
+
+
     </RelativeLayout>
 
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_x="3px" >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Runtime"
+            android:id="@+id/radioButtonRuntime"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:id="@+id/radioButtonToday"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yesterday"
+            android:id="@+id/radioButtonYesterday"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Week"
+            android:id="@+id/radioButtonWeek"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radiogroupAggr"
+        >
+    </RadioGroup>
 
     <TextView
         android:layout_width="wrap_content"
@@ -75,8 +124,6 @@
     <com.glucopred.view.TrendChartView
         android:id="@+id/trend_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

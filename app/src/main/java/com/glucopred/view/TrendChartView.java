@@ -16,12 +16,19 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.glucopred.R;
+import com.glucopred.utils.Utils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class TrendChartView extends LineChart implements OnChartValueSelectedListener {
 
 
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+
+    private static int MAX_VALUE_COUNT = 24;
 
     public TrendChartView(Context context) {
         super(context);
@@ -52,9 +59,20 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         invalidate();
     }
 
+    public void refreshChart() {
+        clear();
+        setData(new LineData());
+        invalidate();
+    }
 
-    public void addEntry(float entryValue) {
+    public void pushCurrentData(float entryValue) {
+        Date now = new Date();
+        String timeString = Utils.getTimeString(now, "HH:mm:ss");
 
+        addEntry(timeString, entryValue);
+    }
+
+    public void addEntry(String xvalue, float entryValue) {
         LineData data = getData();
 
         if(data != null) {
@@ -67,18 +85,23 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
                 data.addDataSet(set);
             }
 
+            int size = set.getEntryCount();
+            if (size > MAX_VALUE_COUNT)
+                data.removeEntry(set.getEntryCount() - MAX_VALUE_COUNT - 1, 0);
+
             // add a new x-value first
-            data.addXValue(set.getEntryCount() + "");
+            //data.addXValue(set.getEntryCount() + "");
+            data.addXValue(xvalue);
 
             // choose a random dataSet
-            int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
+            //int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
 
-            data.addEntry(new Entry(entryValue, set.getEntryCount()), randomDataSetIndex);
+            data.addEntry(new Entry(entryValue, set.getEntryCount()), 0);
 
             // let the chart know it's data has changed
             notifyDataSetChanged();
 
-            setVisibleXRangeMaximum(6);
+            setVisibleXRangeMaximum(24);
             setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
@@ -86,6 +109,12 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         }
 
         invalidate();
+    }
+
+    private int getDataSize() {
+        LineData data = getData();
+        int size = data.getXValCount();
+        return size;
     }
 
     private void removeLastEntry() {

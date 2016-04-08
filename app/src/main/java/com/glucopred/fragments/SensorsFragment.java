@@ -35,6 +35,7 @@ import com.glucopred.adapters.SensorSpinAdapter;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
 
+//sensorsFragment class is manager for "fragment_sensors" view
 public class SensorsFragment extends Fragment implements FragmentEvent {
 	private final static String TAG = SensorsFragment.class.getSimpleName();
 	private SharedPreferences mPrefs;
@@ -258,7 +259,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 		}
 	}
 	
-	// Scan for nearby devices
+	// Scan for nearby bluetooth devices
 	private void scanLeDevice(final boolean enable) {
         if (enable) {
         	mDevices.clear();
@@ -289,7 +290,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         onInvalidateData();
     }
 	
-	// Device scan callback.
+	// Device scan callback, when found bluetooth device
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
  
         @Override

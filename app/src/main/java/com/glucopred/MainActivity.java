@@ -25,10 +25,17 @@ import com.glucopred.fragments.ManualInputFragment;
 import com.glucopred.fragments.SensorsFragment;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
+import com.glucopred.model.HistorianAgent;
+
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
+import java.util.Random;
+import android.os.Handler;
+import android.os.Message;
+
 
 public class MainActivity extends AppCompatActivity {
 	
@@ -37,13 +44,14 @@ public class MainActivity extends AppCompatActivity {
 	 */
 	ViewPager mViewPager;
     SmartTabLayout viewPagerTab;
-	
 	SharedPreferences mPrefs;
+    HistorianAgent mHistorianAgent;
+
 	
 	private boolean mConnected = false;
 	private EstimatorService mEstimatorService;
-	
-	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (EstimatorService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 mConnected = false;
                 invalidateOptionsMenu();
-//                clearUI();
+//              clearUI();
             }
         }
     };
@@ -95,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 .create());
 
 
+        //create historion manager
+        mHistorianAgent = new HistorianAgent(this);
+
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(adapter);
         //set Glucose as default tab
@@ -110,10 +122,45 @@ public class MainActivity extends AppCompatActivity {
 		registerReceiver(mGattUpdateReceiver, Utils.makeGattUpdateIntentFilter());
 		Intent gattServiceIntent = new Intent(this, EstimatorService.class);
 		bindService(gattServiceIntent, mServiceConnection, this.BIND_AUTO_CREATE);
-	}
-	
-	@Override
+
+        //use thread to test data
+        Thread thread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                Random random = new Random();
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                        double currentValue = 4.0 + random.nextInt(10)/10.0;
+
+                        Message message=new Message();
+                        message.obj = currentValue;
+                        mHandler.sendMessage(message);
+                    }
+                    catch (Exception ex) {
+                    }
+                }
+            }
+        });
+        //thread.start();
+    }
+
+    //test handler
+    public Handler mHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
+            double currentValue = Double.parseDouble(msg.obj.toString());
+            mHistorianAgent.pushCurrent(currentValue);
+            super.handleMessage(msg);
+        }
+    };
+
+    @Override
 	protected void onDestroy() {
+        mHistorianAgent.close();
+
 		if (!mConnected && isMyServiceRunning())
             stopService(new Intent(this, EstimatorService.class));
 		
@@ -142,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
 	public void refreshData() {
         return;
 	}
+
+    public HistorianAgent getHistorianAgent() {
+        return mHistorianAgent;
+    }
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item)
