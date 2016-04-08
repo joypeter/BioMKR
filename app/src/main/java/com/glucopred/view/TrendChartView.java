@@ -1,6 +1,5 @@
 package com.glucopred.view;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -18,10 +17,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.glucopred.R;
 import com.glucopred.utils.Utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 public class TrendChartView extends LineChart implements OnChartValueSelectedListener {
 
@@ -29,6 +25,8 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
 
     private static int MAX_VALUE_COUNT = 24;
+    private static int MAX_X_VISIBLE_COUNT = 20;
+    private static int MAX_Y_VISIBLE_COUNT = 15;
 
     public TrendChartView(Context context) {
         super(context);
@@ -56,12 +54,16 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         getXAxis().setDrawLabels(true);
         getXAxis().setDrawGridLines(true);
 
+        //setVisibleXRangeMaximum(MAX_X_VISIBLE_COUNT);
+        setVisibleYRangeMaximum(MAX_Y_VISIBLE_COUNT, AxisDependency.LEFT);
+
         invalidate();
     }
 
     public void refreshChart() {
         clear();
         setData(new LineData());
+
         invalidate();
     }
 
@@ -72,49 +74,29 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         addEntry(timeString, entryValue);
     }
 
-    public void addEntry(String xvalue, float entryValue) {
+    public void addEntry(String timeString, float entryValue) {
         LineData data = getData();
 
         if(data != null) {
-
             ILineDataSet set = data.getDataSetByIndex(0);
-            // set.addEntry(...); // can be called as well
-
             if (set == null) {
                 set = createSet();
                 data.addDataSet(set);
             }
 
-            int size = set.getEntryCount();
-            if (size > MAX_VALUE_COUNT)
-                data.removeEntry(set.getEntryCount() - MAX_VALUE_COUNT - 1, 0);
+            int dataSize = data.getXValCount();
+            if (dataSize >= MAX_VALUE_COUNT)
+                data.removeXValue(0);
 
-            // add a new x-value first
-            //data.addXValue(set.getEntryCount() + "");
-            data.addXValue(xvalue);
-
-            // choose a random dataSet
-            //int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
-
+            data.addXValue(timeString);
             data.addEntry(new Entry(entryValue, set.getEntryCount()), 0);
 
-            // let the chart know it's data has changed
-            notifyDataSetChanged();
+            notifyDataSetChanged();     // let the chart know it's data has changed
 
-            setVisibleXRangeMaximum(24);
-            setVisibleYRangeMaximum(15, AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
-            moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);
+            moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
         }
 
         invalidate();
-    }
-
-    private int getDataSize() {
-        LineData data = getData();
-        int size = data.getXValCount();
-        return size;
     }
 
     private void removeLastEntry() {
@@ -130,8 +112,6 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
                 Entry e = set.getEntryForXIndex(set.getEntryCount() - 1);
 
                 data.removeEntry(e, 0);
-                // or remove by index
-                // mData.removeEntry(xIndex, dataSetIndex);
 
                 notifyDataSetChanged();
                 invalidate();
@@ -151,7 +131,6 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     }
 
     private LineDataSet createSet() {
-
         LineDataSet set = new LineDataSet(null, "Glucose Level");
         set.setLineWidth(2.5f);
         set.setCircleRadius(4.5f);

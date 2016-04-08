@@ -112,7 +112,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 					trendData = mHistorianAgent.getTodayData();
 					periodmode = 1;
 				} else if (checkedId == radioRuntime.getId()) {
-					trendData = mHistorianAgent.getCurrentData(600);
+					trendData = mHistorianAgent.getCurrentDataBySeconds(600);
 					periodmode = 0;
 				}
 
@@ -161,9 +161,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private void UpdateUI(double value) {
 		if (Double.isNaN(value)) {
-			//dial_chart.setCurrentStatus(0f);
-			//trend_chart.clear();
-			//trend_chart.initChart();
 			return;
 		}
 
