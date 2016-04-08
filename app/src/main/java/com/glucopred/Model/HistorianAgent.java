@@ -76,9 +76,6 @@ public class HistorianAgent {
             // Add a data
             addLast(timestamp, value);
 
-            //for test, get the data
-            //RealmResults<GlucopredData> results = realm.where(GlucopredData.class).findAllSorted("timestamp");
-            //long size = results.size();
         } catch (Exception ex) {
         }
     }
@@ -197,11 +194,13 @@ public class HistorianAgent {
         return dataList;
     }
 
-    public ArrayList<TrendData> getCurrentData(int seconds) {
+    public ArrayList<TrendData> getCurrentDataBySeconds(int seconds) {
         ArrayList<TrendData> dataList = new ArrayList<TrendData>();
 
         long now = (new Date()).getTime();
-        long timestamp = now - seconds * 1000;
+
+        long lastTimesatmp = realm.where(GlucopredData.class).max("timestamp").longValue();
+        long timestamp = lastTimesatmp - seconds * 1000;
 
         RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", timestamp).findAllSorted("timestamp");
 
