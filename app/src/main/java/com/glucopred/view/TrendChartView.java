@@ -62,6 +62,10 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     public void refreshChart() {
         clear();
         setData(new LineData());
+
+        setVisibleXRangeMaximum(24);
+        setVisibleYRangeMaximum(15, AxisDependency.LEFT);
+
         invalidate();
     }
 
@@ -101,8 +105,8 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
             // let the chart know it's data has changed
             notifyDataSetChanged();
 
-            setVisibleXRangeMaximum(24);
-            setVisibleYRangeMaximum(15, AxisDependency.LEFT);
+            //setVisibleXRangeMaximum(24);
+            //setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
             moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);
