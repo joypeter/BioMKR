@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.mikephil.charting.data.LineData;
 import com.glucopred.MainActivity;
 import com.glucopred.R;
 import com.glucopred.model.HistorianAgent;
@@ -116,13 +117,13 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 					periodmode = 0;
 				}
 
-				trend_chart.clear();
-				trend_chart.initChart();
+				trend_chart.refreshChart();
 				for (int i = 0; i < trendData.size(); i++) {
 					TrendData td = (TrendData) trendData.get(i);
 					float value = (float)roundOneDecimal(td.getValue());
 					trend_chart.addEntry(td.getTimeString(), value);
 				}
+
 			}
 		});
 

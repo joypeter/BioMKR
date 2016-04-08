@@ -28,6 +28,8 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
 
+    private static int MAX_VALUE_COUNT = 24;
+
     public TrendChartView(Context context) {
         super(context);
         initChart();
@@ -57,6 +59,12 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         invalidate();
     }
 
+    public void refreshChart() {
+        clear();
+        setData(new LineData());
+        invalidate();
+    }
+
     public void pushCurrentData(float entryValue) {
         Date now = new Date();
         String timeString = Utils.getTimeString(now, "HH:mm:ss");
@@ -76,6 +84,10 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
                 set = createSet();
                 data.addDataSet(set);
             }
+
+            int size = set.getEntryCount();
+            if (size > MAX_VALUE_COUNT)
+                data.removeEntry(set.getEntryCount() - MAX_VALUE_COUNT - 1, 0);
 
             // add a new x-value first
             //data.addXValue(set.getEntryCount() + "");
