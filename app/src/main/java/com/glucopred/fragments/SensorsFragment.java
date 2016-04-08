@@ -99,7 +99,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_sensors, container, false);
         TextView textView = (TextView)view.findViewById(R.id.textView1);
-        textView.setText(getResources().getString(R.string.app_name) + " devices");
+        textView.setText(getResources().getString(R.string.device_name) + " devices");
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		spinSensors = (Spinner)view.findViewById(R.id.spinner_sensors);
 		mHandler = new Handler();
