@@ -52,8 +52,8 @@ public class EstimatorService extends Service {
     // Bluetooth
     private BluetoothManager mBluetoothManager;
  	private BluetoothAdapter mBluetoothAdapter;
- 	private String mBluetoothDeviceAddress;
-    private String mBluetoothDeviceName;
+ 	private String mBluetoothDeviceAddress = "";
+    private String mBluetoothDeviceName = "";
     private BluetoothDevice mBluetoothDevice;
     private BluetoothGatt mBluetoothGatt;
     private String mConnectionState = STATE_DISCONNECTED;
@@ -304,7 +304,12 @@ public class EstimatorService extends Service {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
             String bluetoothAddress = Utils.getPref(mPrefs, "Connected_Device_Address", null);
-            System.out.println("Found BLE device " + device.getName() + " " + device.getAddress() + " Connected_Device " + bluetoothAddress);
+            System.out.println("Found BLE device " + device.getName() + " " + device.getAddress() + ", Connected_Device: " + bluetoothAddress);
+
+            mBluetoothDeviceAddress = device.getAddress();
+            mBluetoothDeviceName = device.getName();
+            mBluetoothDevice = device;
+            broadcastUpdate(ACTION_CONNECTION_STATUS);
 
             if (bluetoothAddress != null && device.getAddress().equals(bluetoothAddress) && !isConnected()) {
                 updateNotification("Connecting");

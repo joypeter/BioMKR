@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -164,8 +165,23 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 		
 		Intent gattServiceIntent = new Intent(getActivity(), EstimatorService.class);
 		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
+        getActivity().registerReceiver(mGattUpdateReceiver, Utils.makeGattUpdateIntentFilter());
 		
 		return view;
+	}
+
+	private void addDevices()
+	{
+		sendMessage(mEstimatorService.MSG_STOP_SCAN);
+		mProgress.dismiss();
+
+		BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
+		int i = 0;
+		for (BluetoothDevice device : mDevices)
+			arraystuff[i++] = device;
+		_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
+
+		onInvalidateData();
 	}
 	
 	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -190,8 +206,9 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 //                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 			} else if (EstimatorService.ACTION_CONNECTION_STATUS.equals(action)) {
 				BluetoothDevice device = extras.getParcelable(EstimatorService.EXTRAS_DEVICE);
-				if (null != device) {
+				if (null != device && !mDevices.contains(device)) {
 					mDevices.add(device);
+					addDevices();
 				}
 			}
 
@@ -258,16 +275,26 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 			}
 		}
 	}
-	
+
+	private ProgressDialog.OnCancelListener mProgressOnCancel = new ProgressDialog.OnCancelListener()
+	{
+		@Override
+		public void onCancel (DialogInterface dialogInterface)
+		{
+			sendMessage(mEstimatorService.MSG_STOP_SCAN);
+		}
+	};
+
+
 	// Scan for nearby bluetooth devices
 	private void scanLeDevice(final boolean enable) {
         if (enable) {
         	mDevices.clear();
         	_adapter_sensors = null;
-        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Scanning for sensors", true);
+        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Scanning for sensors", true, true, mProgressOnCancel);
         	
             // Stops scanning after a pre-defined scan period.
-            mHandler.postDelayed(new Runnable() {
+            /*mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					sendMessage(mEstimatorService.MSG_STOP_SCAN);
@@ -281,7 +308,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 
 					onInvalidateData();
 				}
-			}, SCAN_PERIOD);
+			}, SCAN_PERIOD);*/
 
 			sendMessage(mEstimatorService.MSG_START_SCAN);
         } else {
