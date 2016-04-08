@@ -40,12 +40,12 @@ public class SensorSpinAdapter extends ArrayAdapter<BluetoothDevice>{
 	     
 	     View layout = inflater.inflate(R.layout.customspinner_imageview, parent, false);
 	     TextView tv = (TextView) layout.findViewById(R.id.tv);
-	     tv.setText(values[position].getAddress());
+	     tv.setText(values[position].getName() + "(" + values[position].getAddress() + ")");
 	     
 	     ImageView img = (ImageView) layout.findViewById(R.id.img);
 	     img.setImageResource(R.drawable.cardio);
 	     
-	     tv.setTextSize(20f);
+	     tv.setTextSize(17f);
     	 tv.setTextColor(Color.BLACK);
     	 
 	     return layout;
