@@ -16,6 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -23,7 +26,6 @@ import android.widget.TextView;
 
 import com.glucopred.MainActivity;
 import com.glucopred.R;
-import com.glucopred.adapters.SensorSpinAdapter;
 import com.glucopred.model.HistorianAgent;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
@@ -197,7 +199,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		return;
 	}
 
-	private void UpdateUI(double value) {
+	private void UpdateUI(final double value) {
 		if (Double.isNaN(value)) {
 			return;
 		}
@@ -205,6 +207,14 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		if (value != 0) {
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
+
+			Animation anim = new AlphaAnimation(0.1f, 1.0f);
+			anim.setDuration(200);
+			anim.setStartOffset(20);
+			anim.setInterpolator(new BounceInterpolator());
+			anim.setRepeatMode(Animation.REVERSE);
+			anim.setRepeatCount(0);
+			dial_chart.startAnimation(anim);
 
 			if (periodmode == 0) {
 				trend_chart.pushCurrentData((float) value);
