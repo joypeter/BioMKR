@@ -2,9 +2,14 @@ package com.glucopred.model;
 
 import android.content.Context;
 
+import com.github.mikephil.charting.data.Entry;
+import com.glucopred.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -120,16 +125,92 @@ public class HistorianAgent {
         }
     }
 
-    public ArrayList<TrendData> getWeekData() {
+    public RealmResults<GlucopredData> getRealtimeData() {
+        long now = (new Date()).getTime();
+        long starttime = now - HOUR_MILLISECONDS * 2;
+
+        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+        return results;
+    }
+
+    public RealmResults<GlucopredData> getTodayData() {
+        long now = (new Date()).getTime();
+        long starttime = Utils.getDayStart(new Date(now));
+
+        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+        return results;
+    }
+
+    public RealmResults<GlucopredData> getYesterdayData() {
+        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS;
+        long starttime = Utils.getDayStart(new Date(timestamp));
+        long endtime = starttime + DAY_MILLISECONDS;
+
+        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).between("timestamp", starttime, endtime).findAllSorted("timestamp");
+        return results;
+    }
+
+    public ArrayList<TrendData> getTodayAverageData() {
         ArrayList<TrendData> dataList = new ArrayList<TrendData>();
 
-        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS * maxStoreDays;
+        long now = (new Date()).getTime();
+        long timestamp = Utils.getDayStart(new Date(now));
 
-        for (int i = 0; i <= maxStoreDays; i++) {
+        while (timestamp < now) {
             TrendData data = new TrendData();
 
             Date time = new Date(timestamp);
-            double value = getDayAverage(time);
+            double value = getHourAverage(time);
+
+            DateFormat df = new SimpleDateFormat("HH:mm");
+            String timeString = df.format(time);
+
+            data.setTimeString(timeString);
+            data.setValue(value);
+            dataList.add(data);
+
+            timestamp += HOUR_MILLISECONDS;
+        }
+
+        return dataList;
+    }
+
+    public List<TrendData> getYesterdayAverageData() {
+        List<TrendData> dataList = new ArrayList<TrendData>();
+
+        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS;
+        timestamp = Utils.getDayStart(new Date(timestamp));
+
+        for (int i = 0; i < 24; i++) {
+            TrendData data = new TrendData();
+
+            Date time = new Date(timestamp);
+            double value = getHourAverage(time);
+
+            DateFormat df = new SimpleDateFormat("HH:mm");
+            String timeString = df.format(time);
+
+            data.setTimeString(timeString);
+            data.setValue(value);
+            dataList.add(data);
+
+            timestamp += HOUR_MILLISECONDS;
+        }
+
+        return dataList;
+    }
+
+    public List<TrendData> getWeekAverageData() {
+        List<TrendData> dataList = new ArrayList<TrendData>();
+
+        long nowstamp = (new Date()).getTime();
+        long timestamp = nowstamp - DAY_MILLISECONDS * maxStoreDays;
+
+        while (timestamp < nowstamp) {
+            TrendData data = new TrendData();
+
+            Date time = new Date(timestamp);
+            double value = getHourAverage(time);
 
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String timeString = df.format(time);
@@ -138,57 +219,7 @@ public class HistorianAgent {
             data.setValue(value);
             dataList.add(data);
 
-            timestamp += DAY_MILLISECONDS;
-        }
-
-        return dataList;
-    }
-
-    public ArrayList<TrendData> getYesterdayData() {
-        ArrayList<TrendData> dataList = new ArrayList<TrendData>();
-
-        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS;
-        timestamp = getDayStart(new Date(timestamp));
-
-        for (int i = 0; i < 24; i++) {
-            TrendData data = new TrendData();
-
-            Date time = new Date(timestamp);
-            double value = getHourAverage(time);
-
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String timeString = df.format(time);
-
-            data.setTimeString(timeString);
-            data.setValue(value);
-            dataList.add(data);
-
-            timestamp += HOUR_MILLISECONDS;
-        }
-
-        return dataList;
-    }
-
-    public ArrayList<TrendData> getTodayData() {
-        ArrayList<TrendData> dataList = new ArrayList<TrendData>();
-
-        long now = (new Date()).getTime();
-        long timestamp = getDayStart(new Date(now));
-
-        while (timestamp < now) {
-            TrendData data = new TrendData();
-
-            Date time = new Date(timestamp);
-            double value = getHourAverage(time);
-
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String timeString = df.format(time);
-
-            data.setTimeString(timeString);
-            data.setValue(value);
-            dataList.add(data);
-
-            timestamp += HOUR_MILLISECONDS;
+            timestamp += HOUR_MILLISECONDS;//DAY_MILLISECONDS;
         }
 
         return dataList;
@@ -199,7 +230,8 @@ public class HistorianAgent {
 
         long now = (new Date()).getTime();
 
-        long lastTimesatmp = realm.where(GlucopredData.class).max("timestamp").longValue();
+        //long lastTimesatmp = realm.where(GlucopredData.class).max("timestamp").longValue();
+        long lastTimesatmp = now;
         long timestamp = lastTimesatmp - seconds * 1000;
 
         RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", timestamp).findAllSorted("timestamp");
@@ -252,8 +284,8 @@ public class HistorianAgent {
     }
 
     private double getDayAverage(Date date) {
-        long dayStart = getDayStart(date);
-        long dayEnd = getDayEnd(date);
+        long dayStart = Utils.getDayStart(date);
+        long dayEnd = Utils.getDayEnd(date);
 
         //RealmResults<GlucopredData> dd = realm.where(GlucopredData.class).between("timestamp", dayStart, dayEnd).findAll();
         double average = realm.where(GlucopredData.class).between("timestamp", dayStart, dayEnd).average("value");
@@ -261,51 +293,11 @@ public class HistorianAgent {
     }
 
     private double getHourAverage(Date date) {
-        long hourStart = getHourStart(date);
-        long hourEnd = getHourEnd(date);
+        long hourStart = Utils.getHourStart(date);
+        long hourEnd = Utils.getHourEnd(date);
 
         double average = realm.where(GlucopredData.class).between("timestamp", hourStart, hourEnd).average("value");
         return average;
-    }
-
-    private Long getDayStart(Date date){
-        Calendar dayStart = Calendar.getInstance();
-        dayStart.setTime(date);
-        dayStart.set(Calendar.HOUR_OF_DAY, 0);
-        dayStart.set(Calendar.MINUTE, 0);
-        dayStart.set(Calendar.SECOND, 0);
-        dayStart.set(Calendar.MILLISECOND, 0);
-        Date d = dayStart.getTime();
-        return d.getTime();
-    }
-
-    private Long getDayEnd(Date date){
-        Calendar dayEnd = Calendar.getInstance();
-        dayEnd.setTime(date);
-        dayEnd.set(Calendar.HOUR_OF_DAY, 23);
-        dayEnd.set(Calendar.MINUTE, 59);
-        dayEnd.set(Calendar.SECOND, 59);
-        dayEnd.set(Calendar.MILLISECOND, 999);
-        Date d = dayEnd.getTime();
-        return d.getTime();
-    }
-
-    private long getHourStart(Date date) {
-        Calendar hourStart = Calendar.getInstance();
-        hourStart.setTime(date);
-        hourStart.set(Calendar.MINUTE, 0);
-        hourStart.set(Calendar.SECOND, 0);
-        hourStart.set(Calendar.MILLISECOND, 0);
-        return hourStart.getTime().getTime();
-    }
-
-    private long getHourEnd(Date date) {
-        Calendar hourEnd = Calendar.getInstance();
-        hourEnd.setTime(date);
-        hourEnd.set(Calendar.MINUTE, 59);
-        hourEnd.set(Calendar.SECOND, 59);
-        hourEnd.set(Calendar.MILLISECOND, 999);
-        return hourEnd.getTime().getTime();
     }
 
     public void close() {
