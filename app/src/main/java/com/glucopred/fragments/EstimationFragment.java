@@ -1,16 +1,12 @@
 package com.glucopred.fragments;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,9 +28,7 @@ import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
 import com.glucopred.view.DialChartView;
 import com.glucopred.view.TrendChartView;
-import com.glucopred.model.TrendData;
 
-import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 public class EstimationFragment extends Fragment implements FragmentEvent {
@@ -133,9 +127,10 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if (checkedId == radioWeek.getId()) {
-					trend_chart.drawWeekData(mHistorianAgent.getWeekAverageData());
+					trend_chart.drawAverageData(mHistorianAgent.getWeekAverageData());
 				} else if (checkedId == radioYesterday.getId()) {
-					trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
+					//trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
+					trend_chart.drawAverageData(mHistorianAgent.getYesterdayAverageData());
 				} else if (checkedId == radioToday.getId()) {
 					trend_chart.drawTodayData(mHistorianAgent.getTodayData());
 				} else if (checkedId == radioRealtime.getId()) {
