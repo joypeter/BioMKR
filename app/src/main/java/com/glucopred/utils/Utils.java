@@ -21,9 +21,10 @@ public class Utils {
     static final String LOG_TAG = "PRECISE";
     public static final String BLUETOOTH_NEWDATA = "com.glucopred.service.EstimatorService.action.BLUETOOTH_NEWDATA";
 
-    public static long INTERVAL_MILLESECONDS = 1000 * 30;              //every 30 seconds one signal
+
     public static long DAY_MILLISECONDS = 60 * 60 * 24 * 1000;
     public static long HOUR_MILLISECONDS = 60 * 60 * 1000;
+    public static long MINUTE_MILLISECONDS = 60 * 1000;
     public static long SECOND_MILLISECONDS = 1000;
 
     public static char[] getHexValue(byte[] array){
@@ -252,5 +253,21 @@ public class Utils {
         hourEnd.set(Calendar.SECOND, 59);
         hourEnd.set(Calendar.MILLISECOND, 999);
         return hourEnd.getTime().getTime();
+    }
+
+    public static long getMinuteStart(Date date) {
+        Calendar minuteStart = Calendar.getInstance();
+        minuteStart.setTime(date);
+        minuteStart.set(Calendar.SECOND, 0);
+        minuteStart.set(Calendar.MILLISECOND, 0);
+        return minuteStart.getTime().getTime();
+    }
+
+    public static long getMinuteEnd(Date date) {
+        Calendar minuteEnd = Calendar.getInstance();
+        minuteEnd.setTime(date);
+        minuteEnd.set(Calendar.SECOND, 59);
+        minuteEnd.set(Calendar.MILLISECOND, 999);
+        return minuteEnd.getTime().getTime();
     }
 }

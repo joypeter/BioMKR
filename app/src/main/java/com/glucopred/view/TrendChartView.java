@@ -224,7 +224,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         setTrend(xVals, yVals);
     }
 
-    public void drawWeekData(List<TrendData> data) {
+    public void drawAverageData(List<TrendData> data) {
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -289,22 +289,27 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
             Date now = new Date();
             String timeString = Utils.getTimeString(now, "HH:mm:ss");
 
-            //TODO:
+            addDataToToday(timeString, entryValue);
         }
     }
 
-    public void addSingleData(String timeString, float entryValue) {
+    private void addDataToToday(String timeString, float entryValue) {
+        //TODO:
+
+    }
+
+    private void addSingleData(String timeString, float entryValue) {
         LineData data = getData();
 
         if(data != null) {
             ILineDataSet set = data.getDataSetByIndex(0);
             if (set != null) {
                 data.addXValue(timeString);
-                data.addEntry(new Entry(entryValue, set.getEntryCount()), 0);
+                data.addEntry(new Entry(entryValue, data.getXValCount() - 1), 0);
 
                 notifyDataSetChanged();     // let the chart know it's data has changed
 
-                moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
+                //moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
             }
             //if (set == null) {
             //    set = createSet();

@@ -25,8 +25,6 @@ public class HistorianAgent {
     private Realm realm;
     private int maxStoreDays = 7;
     private static long INTERVAL_MILLESECONDS = 1000 * 30;              //every 30 seconds one signal
-    private static long DAY_MILLISECONDS = 60 * 60 * 24 * 1000;
-    private static long HOUR_MILLISECONDS = 60 * 60 * 1000;
 
     public HistorianAgent(Context context) {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
@@ -46,7 +44,7 @@ public class HistorianAgent {
             Random random = new Random();
 
             long now = (new Date()).getTime();
-            long timestamp =  now - DAY_MILLISECONDS * maxStoreDays;          //start from one week ago
+            long timestamp =  now - Utils.DAY_MILLISECONDS * maxStoreDays;          //start from one week ago
 
             long firstTimestamp = 0;
             if (realm.where(GlucopredData.class).count() > 0)
@@ -111,7 +109,7 @@ public class HistorianAgent {
 
     public void keepWeekData() {
         try {
-            long firstTimeStamp = (new Date()).getTime() - DAY_MILLISECONDS * maxStoreDays;
+            long firstTimeStamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS * maxStoreDays;
 
             RealmResults<GlucopredData> results = realm.where(GlucopredData.class).lessThan("timestamp", firstTimeStamp).findAll();
             if (results.size() <=0)
@@ -127,7 +125,7 @@ public class HistorianAgent {
 
     public RealmResults<GlucopredData> getRealtimeData() {
         long now = (new Date()).getTime();
-        long starttime = now - HOUR_MILLISECONDS * 2;
+        long starttime = now - Utils.HOUR_MILLISECONDS * 2;
 
         RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
         return results;
@@ -142,9 +140,9 @@ public class HistorianAgent {
     }
 
     public RealmResults<GlucopredData> getYesterdayData() {
-        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS;
+        long timestamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
         long starttime = Utils.getDayStart(new Date(timestamp));
-        long endtime = starttime + DAY_MILLISECONDS;
+        long endtime = starttime + Utils.DAY_MILLISECONDS;
 
         RealmResults<GlucopredData> results = realm.where(GlucopredData.class).between("timestamp", starttime, endtime).findAllSorted("timestamp");
         return results;
@@ -160,7 +158,7 @@ public class HistorianAgent {
             TrendData data = new TrendData();
 
             Date time = new Date(timestamp);
-            double value = getHourAverage(time);
+            double value = getMinuteAverage(time);
 
             DateFormat df = new SimpleDateFormat("HH:mm");
             String timeString = df.format(time);
@@ -169,7 +167,7 @@ public class HistorianAgent {
             data.setValue(value);
             dataList.add(data);
 
-            timestamp += HOUR_MILLISECONDS;
+            timestamp += Utils.HOUR_MILLISECONDS;
         }
 
         return dataList;
@@ -178,14 +176,15 @@ public class HistorianAgent {
     public List<TrendData> getYesterdayAverageData() {
         List<TrendData> dataList = new ArrayList<TrendData>();
 
-        long timestamp = (new Date()).getTime() - DAY_MILLISECONDS;
+        long timestamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
         timestamp = Utils.getDayStart(new Date(timestamp));
+        long endstamp = timestamp + Utils.DAY_MILLISECONDS;
 
-        for (int i = 0; i < 24; i++) {
+        while (timestamp < endstamp) {
             TrendData data = new TrendData();
 
             Date time = new Date(timestamp);
-            double value = getHourAverage(time);
+            double value = getMinuteAverage(time);
 
             DateFormat df = new SimpleDateFormat("HH:mm");
             String timeString = df.format(time);
@@ -194,7 +193,7 @@ public class HistorianAgent {
             data.setValue(value);
             dataList.add(data);
 
-            timestamp += HOUR_MILLISECONDS;
+            timestamp += Utils.MINUTE_MILLISECONDS;
         }
 
         return dataList;
@@ -204,7 +203,7 @@ public class HistorianAgent {
         List<TrendData> dataList = new ArrayList<TrendData>();
 
         long nowstamp = (new Date()).getTime();
-        long timestamp = nowstamp - DAY_MILLISECONDS * maxStoreDays;
+        long timestamp = nowstamp - Utils.DAY_MILLISECONDS * maxStoreDays;
 
         while (timestamp < nowstamp) {
             TrendData data = new TrendData();
@@ -219,7 +218,7 @@ public class HistorianAgent {
             data.setValue(value);
             dataList.add(data);
 
-            timestamp += HOUR_MILLISECONDS;//DAY_MILLISECONDS;
+            timestamp += Utils.HOUR_MILLISECONDS;//DAY_MILLISECONDS;
         }
 
         return dataList;
@@ -297,6 +296,14 @@ public class HistorianAgent {
         long hourEnd = Utils.getHourEnd(date);
 
         double average = realm.where(GlucopredData.class).between("timestamp", hourStart, hourEnd).average("value");
+        return average;
+    }
+
+    private double getMinuteAverage(Date date) {
+        long minuteStart = Utils.getMinuteStart(date);
+        long minuteEnd = Utils.getMinuteEnd(date);
+
+        double average = realm.where(GlucopredData.class).between("timestamp", minuteStart, minuteEnd).average("value");
         return average;
     }
 
