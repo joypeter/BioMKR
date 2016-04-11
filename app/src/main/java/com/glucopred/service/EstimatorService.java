@@ -3,6 +3,7 @@ package com.glucopred.service;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -48,6 +49,7 @@ public class EstimatorService extends Service {
     private int mNotificationId = 2;
 
     private  static EstimatorService sInstance;
+    private ArrayList<BluetoothDevice> mFoundDevices = new ArrayList<>();
     
     // Bluetooth
     private BluetoothManager mBluetoothManager;
@@ -62,6 +64,7 @@ public class EstimatorService extends Service {
     public static final String STATE_CONNECTING = "Connecting";
     public static final String STATE_CONNECTED = "Connected";
     public static final String STATE_SCANNING = "Scanning";
+    public static final String STATE_SCANNING_STOPPED = "Scanning Stopped";
 
     public static final String EXTRAS_DEVICE = "DEVICE";
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
@@ -110,7 +113,6 @@ public class EstimatorService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-            	scanLeDevice(false);
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
@@ -133,7 +135,7 @@ public class EstimatorService extends Service {
 
                 if (mBluetoothDeviceName != null && mBluetoothDeviceAddress != null) {
                     updateNotification("Connecting...");
-                    connect(mBluetoothDeviceName, mBluetoothDeviceAddress);
+                    connect(mBluetoothDevice);
                 }
             }
         }
@@ -305,6 +307,9 @@ public class EstimatorService extends Service {
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+            if (null == device.getName()) {
+                return;
+            }
             if (!device.getName().equals(getResources().getString(R.string.device_name))) {
                 return;
             }
@@ -315,7 +320,10 @@ public class EstimatorService extends Service {
             mBluetoothDeviceAddress = device.getAddress();
             mBluetoothDeviceName = device.getName();
             mBluetoothDevice = device;
-            broadcastUpdate(ACTION_CONNECTION_STATUS);
+            if (!mFoundDevices.contains(device)) {
+                mFoundDevices.add(device);
+            }
+            scanLeDevice(false);
 
             if (bluetoothAddress != null && device.getAddress().equals(bluetoothAddress) && !isConnected()) {
                 //updateNotification("Connecting");
@@ -333,7 +341,7 @@ public class EstimatorService extends Service {
              broadcastUpdate(ACTION_CONNECTION_STATUS);
          } else {
              mScanning = false;
-             mConnectionState = STATE_DISCONNECTED;
+             mConnectionState = STATE_SCANNING_STOPPED;
              broadcastUpdate(ACTION_CONNECTION_STATUS);
              mBluetoothAdapter.stopLeScan(mLeScanCallback);
          }
@@ -350,8 +358,13 @@ public class EstimatorService extends Service {
             if (bluetoothAddress != null) {
                 System.out.println("Found previously connected device: " + name + "(" + bluetoothAddress + ")");
                 updateNotification("Connecting to " + name + "(" + bluetoothAddress + ")...");
+
+                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(bluetoothAddress);
+                if (!mFoundDevices.contains(device)) {
+                    mFoundDevices.add(device);
+                }
                 if (!isConnected()) {
-                    connect(name, bluetoothAddress);
+                    connect(device);
                 }
             } else {
                 updateNotification("Scanning...");
@@ -457,14 +470,21 @@ public class EstimatorService extends Service {
     /**
      * Connects to the GATT server hosted on the Bluetooth LE device.
      *
-     * @param address The device address of the destination device.
+     * @param device The device to connect.
      *
      * @return Return true if the connection is initiated successfully. The connection result
      *         is reported asynchronously through the
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
-    public boolean connect(final String name, final String address) {
+    public boolean connect(BluetoothDevice device) {
+        if (device == null) {
+            Log.w(TAG, "device to connect is null");
+            return false;
+        }
+
+        String name = device.getName();
+        String address = device.getAddress();
         if (isConnected()) {
             Log.w(TAG, "device " + name + "(" + address + ")" + " is already connected");
             return false;
@@ -478,7 +498,7 @@ public class EstimatorService extends Service {
             return false;
         }
  
-        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        final BluetoothDevice deviceToConnect = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
         	updateNotification("Device not found.  Unable to connect.");
             Log.w(TAG, "Device not found.  Unable to connect.");
@@ -487,9 +507,9 @@ public class EstimatorService extends Service {
 
         mBluetoothDeviceAddress = address;
         mBluetoothDeviceName = name;
-        mBluetoothDevice = device;
+        mBluetoothDevice = deviceToConnect;
 
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        mBluetoothGatt = deviceToConnect.connectGatt(this, false, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mConnectionState = STATE_CONNECTING;
         broadcastUpdate(ACTION_CONNECTION_STATUS);
@@ -548,13 +568,16 @@ public class EstimatorService extends Service {
 		
 		return mBluetoothGatt.getDevice();
 	}
+
+    public ArrayList<BluetoothDevice> foundDevices() {
+        return mFoundDevices;
+    }
  
     /**
      * After using a given BLE device, the app must call this method to ensure resources are
      * released properly.
      */
     public void close() {
-    	scanLeDevice(false);
     	
     	if (mBluetoothGatt == null) {
             return;

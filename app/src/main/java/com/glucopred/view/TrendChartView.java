@@ -58,14 +58,15 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     public void initChart()
     {
         setOnChartValueSelectedListener(this);
-        setDrawGridBackground(false);
-        setDescription("History Glucose Level");
+        //setDrawGridBackground(false);
+        setDescription("");
 
         //setData(new LineData());
 
         XAxis xAxis = getXAxis();
-        xAxis.setDrawLabels(true);
+        xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(true);
+        xAxis.setDrawAxisLine(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = getAxisLeft();
@@ -242,7 +243,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         clear();
         LineDataSet set = new LineDataSet(yVals, "Glucose Level");
         set.setColor(Color.GREEN);
-        set.setLineWidth(1.0f);
+        set.setLineWidth(2.0f);
         set.setDrawValues(false);
         set.setDrawCircles(false);
         set.setDrawCubic(false);

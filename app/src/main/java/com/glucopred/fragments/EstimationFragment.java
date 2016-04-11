@@ -58,12 +58,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 	private HistorianAgent mHistorianAgent;
 	private EstimatorService mEstimatorService;
 	private IBinder binder;
-
-	double roundOneDecimal(double d) {
-		DecimalFormat twoDForm = new DecimalFormat("#.#");
-		return Double.valueOf(twoDForm.format(d));
-	}
-
 	
 	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -146,6 +140,10 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 		trendMode = TrendMode.REALTIME;
 		radioRealtime.setChecked(true);
+
+		Intent gattServiceIntent = new Intent(getActivity(), EstimatorService.class);
+		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
+		getActivity().getApplicationContext().registerReceiver(mReceiver, Utils.makeGattUpdateIntentFilter());
 		return view;
 	}
 
@@ -179,21 +177,15 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private void UpdateUI(final double value) {
 		if (Double.isNaN(value)) {
+			dial_chart.invalidate();
+			trend_chart.pushCurrentData(0f);
+			mHistorianAgent.pushCurrent(0f);
 			return;
 		}
 
 		if (value != 0) {
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
-
-			Animation anim = new AlphaAnimation(0.1f, 1.0f);
-			anim.setDuration(200);
-			anim.setStartOffset(20);
-			anim.setInterpolator(new BounceInterpolator());
-			anim.setRepeatMode(Animation.REVERSE);
-			anim.setRepeatCount(0);
-			dial_chart.startAnimation(anim);
-
 
 			trend_chart.pushCurrentData((float) value);
 			mHistorianAgent.pushCurrent(value);

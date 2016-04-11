@@ -75,13 +75,12 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
             
             // Check connection state if we resume
             mConnected = mEstimatorService.isConnected(); 
-            if (mConnected) {
-            	buttonConnect.setText("Disconnect");
-            	
-            	BluetoothDevice[] arraystuff = new BluetoothDevice[1];
-            	arraystuff[0] = mEstimatorService.connectedDevice();
-                _adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
-                onInvalidateData();
+
+			_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, mEstimatorService.foundDevices());
+			onInvalidateData();
+
+			if (mConnected) {
+				buttonConnect.setText("Disconnect");
             }
             
             buttonScan.setEnabled(!mConnected);
@@ -159,7 +158,7 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 			        if (device == null) 
 			        	return;
 		        	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Connecting", true);
-		        	mEstimatorService.connect(device.getName(), device.getAddress());
+		        	mEstimatorService.connect(device);
 		        }
 			}
 		});
@@ -171,22 +170,6 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         getActivity().registerReceiver(mGattUpdateReceiver, Utils.makeGattUpdateIntentFilter());
 		
 		return view;
-	}
-
-	private void addDevices()
-	{
-		BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
-		int i = 0;
-		for (BluetoothDevice device : mDevices)
-			arraystuff[i++] = device;
-		_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
-
-		onInvalidateData();
-
-		if (mScanning){
-			sendMessage(mEstimatorService.MSG_STOP_SCAN);
-			mProgress.dismiss();
-		}
 	}
 	
 	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -210,11 +193,8 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
             } else if (EstimatorService.ACTION_DATA_AVAILABLE.equals(action)) {
 //                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 			} else if (EstimatorService.ACTION_CONNECTION_STATUS.equals(action)) {
-				BluetoothDevice device = extras.getParcelable(EstimatorService.EXTRAS_DEVICE);
-				if (null != device && !mDevices.contains(device)) {
-					mDevices.add(device);
-					addDevices();
-				}
+				_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, mEstimatorService.foundDevices());
+				onInvalidateData();
 			}
 
             
@@ -305,19 +285,6 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
         }
         onInvalidateData();
     }
-	
-	// Device scan callback, when found bluetooth device
-    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
- 
-        @Override
-        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-        	if (device.getName() != null) {
-	        	System.out.println("Found BLE device " + device.getName() + " " + device.getAddress());
-	        	if (device.getName().equals("BioMKR") && !mDevices.contains(device))
-	        		mDevices.add(device);
-        	}
-        }
-    };
 	
 	private void toast(final String message) {
         getActivity().runOnUiThread(new Runnable() {
