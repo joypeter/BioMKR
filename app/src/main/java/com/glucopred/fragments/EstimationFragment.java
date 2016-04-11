@@ -1,14 +1,24 @@
 package com.glucopred.fragments;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -28,7 +38,7 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 public class EstimationFragment extends Fragment implements FragmentEvent {
-	
+	private final static String TAG = EstimationFragment.class.getSimpleName();
 	private TextView device_name_textview = null;
 	private TextView connection_status_textview = null;
 	DialChartView dial_chart = null;
@@ -46,6 +56,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private MainActivity mActivity;
 	private HistorianAgent mHistorianAgent;
+	private EstimatorService mEstimatorService;
+	private IBinder binder;
 
 	double roundOneDecimal(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.#");
@@ -72,6 +84,29 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         }
     };
 
+	private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName componentName, IBinder service) {
+			binder = service;
+			mEstimatorService = EstimatorService.getInstance();
+			if (!mEstimatorService.initialize()) {
+				Log.e(TAG, "Unable to initialize Bluetooth");
+			}
+
+			device_address = mEstimatorService.getPreviousDeviceAddress();
+			device_name = mEstimatorService.getPreviousDeviceName();
+			connection_status = mEstimatorService.getConnectionStatus();
+			UpdateConnectionStatus();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+			binder = null;
+			mEstimatorService = null;
+		}
+	};
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_glucoseestimation, container, false);
@@ -81,11 +116,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 		dial_chart = (DialChartView)view.findViewById(R.id.dial_chart);
 		trend_chart = (TrendChartView)view.findViewById(R.id.trend_chart);
-
-		IntentFilter filter = new IntentFilter();
-        filter.addAction(Utils.BLUETOOTH_NEWDATA);
-		filter.addAction(EstimatorService.ACTION_CONNECTION_STATUS);
-        getActivity().getApplicationContext().registerReceiver(mReceiver, filter);
 
 		mActivity = (MainActivity)  getActivity();
 		mHistorianAgent = mActivity.getHistorianAgent();
@@ -149,7 +179,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		return;
 	}
 
-	private void UpdateUI(double value) {
+	private void UpdateUI(final double value) {
 		if (Double.isNaN(value)) {
 			return;
 		}
@@ -157,6 +187,14 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		if (value != 0) {
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
+
+			Animation anim = new AlphaAnimation(0.1f, 1.0f);
+			anim.setDuration(200);
+			anim.setStartOffset(20);
+			anim.setInterpolator(new BounceInterpolator());
+			anim.setRepeatMode(Animation.REVERSE);
+			anim.setRepeatCount(0);
+			dial_chart.startAnimation(anim);
 
 
 			trend_chart.pushCurrentData((float) value);

@@ -29,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.glucopred.R;
@@ -97,6 +98,8 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_sensors, container, false);
+        TextView textView = (TextView)view.findViewById(R.id.textView1);
+        textView.setText(getResources().getString(R.string.device_name) + " devices");
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		spinSensors = (Spinner)view.findViewById(R.id.spinner_sensors);
 		mHandler = new Handler();
@@ -172,9 +175,6 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 
 	private void addDevices()
 	{
-		sendMessage(mEstimatorService.MSG_STOP_SCAN);
-		mProgress.dismiss();
-
 		BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
 		int i = 0;
 		for (BluetoothDevice device : mDevices)
@@ -182,6 +182,11 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 		_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
 
 		onInvalidateData();
+
+		if (mScanning){
+			sendMessage(mEstimatorService.MSG_STOP_SCAN);
+			mProgress.dismiss();
+		}
 	}
 	
 	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -289,29 +294,13 @@ public class SensorsFragment extends Fragment implements FragmentEvent {
 	// Scan for nearby bluetooth devices
 	private void scanLeDevice(final boolean enable) {
         if (enable) {
-        	//mDevices.clear();
+        	mScanning = true;
         	_adapter_sensors = null;
         	mProgress = ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name), "Scanning for sensors", true, true, mProgressOnCancel);
-        	
-            // Stops scanning after a pre-defined scan period.
-            /*mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					sendMessage(mEstimatorService.MSG_STOP_SCAN);
-					mProgress.dismiss();
-
-					BluetoothDevice[] arraystuff = new BluetoothDevice[mDevices.size()];
-					int i = 0;
-					for (BluetoothDevice device : mDevices)
-						arraystuff[i++] = device;
-					_adapter_sensors = new SensorSpinAdapter(getActivity().getApplicationContext(), 0, arraystuff);
-
-					onInvalidateData();
-				}
-			}, SCAN_PERIOD);*/
 
 			sendMessage(mEstimatorService.MSG_START_SCAN);
         } else {
+			mScanning = false;
 			sendMessage(mEstimatorService.MSG_STOP_SCAN);
         }
         onInvalidateData();

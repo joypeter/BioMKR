@@ -123,39 +123,7 @@ public class MainActivity extends AppCompatActivity {
 		Intent gattServiceIntent = new Intent(this, EstimatorService.class);
 		bindService(gattServiceIntent, mServiceConnection, this.BIND_AUTO_CREATE);
 
-        //use thread to test data
-        Thread thread = new Thread(new Runnable()
-        {
-            public void run()
-            {
-                Random random = new Random();
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                        double currentValue = 4.0 + random.nextInt(10)/10.0;
-
-                        Message message=new Message();
-                        message.obj = currentValue;
-                        mHandler.sendMessage(message);
-                    }
-                    catch (Exception ex) {
-                    }
-                }
-            }
-        });
-        //thread.start();
     }
-
-    //test handler
-    public Handler mHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            double currentValue = Double.parseDouble(msg.obj.toString());
-            mHistorianAgent.pushCurrent(currentValue);
-            super.handleMessage(msg);
-        }
-    };
 
     @Override
 	protected void onDestroy() {
