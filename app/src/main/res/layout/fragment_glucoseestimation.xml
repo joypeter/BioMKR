@@ -72,8 +72,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Runtime"
-            android:id="@+id/radioButtonRuntime"
+            android:text="Real time"
+            android:id="@+id/radioButtonRealtime"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true" />
 

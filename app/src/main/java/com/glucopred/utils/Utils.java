@@ -13,12 +13,18 @@ import android.os.Environment;
 import java.text.DecimalFormat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class Utils {
     static final String LOG_TAG = "PRECISE";
     public static final String BLUETOOTH_NEWDATA = "com.glucopred.service.EstimatorService.action.BLUETOOTH_NEWDATA";
+
+    public static long INTERVAL_MILLESECONDS = 1000 * 30;              //every 30 seconds one signal
+    public static long DAY_MILLISECONDS = 60 * 60 * 24 * 1000;
+    public static long HOUR_MILLISECONDS = 60 * 60 * 1000;
+    public static long SECOND_MILLISECONDS = 1000;
 
     public static char[] getHexValue(byte[] array){
         char[] symbols="0123456789ABCDEF".toCharArray();
@@ -207,4 +213,43 @@ public class Utils {
         return timeString;
     }
 
+    public static long getDayStart(Date date){
+        Calendar dayStart = Calendar.getInstance();
+        dayStart.setTime(date);
+        dayStart.set(Calendar.HOUR_OF_DAY, 0);
+        dayStart.set(Calendar.MINUTE, 0);
+        dayStart.set(Calendar.SECOND, 0);
+        dayStart.set(Calendar.MILLISECOND, 0);
+        Date d = dayStart.getTime();
+        return d.getTime();
+    }
+
+    public static long getDayEnd(Date date){
+        Calendar dayEnd = Calendar.getInstance();
+        dayEnd.setTime(date);
+        dayEnd.set(Calendar.HOUR_OF_DAY, 23);
+        dayEnd.set(Calendar.MINUTE, 59);
+        dayEnd.set(Calendar.SECOND, 59);
+        dayEnd.set(Calendar.MILLISECOND, 999);
+        Date d = dayEnd.getTime();
+        return d.getTime();
+    }
+
+    public static long getHourStart(Date date) {
+        Calendar hourStart = Calendar.getInstance();
+        hourStart.setTime(date);
+        hourStart.set(Calendar.MINUTE, 0);
+        hourStart.set(Calendar.SECOND, 0);
+        hourStart.set(Calendar.MILLISECOND, 0);
+        return hourStart.getTime().getTime();
+    }
+
+    public static long getHourEnd(Date date) {
+        Calendar hourEnd = Calendar.getInstance();
+        hourEnd.setTime(date);
+        hourEnd.set(Calendar.MINUTE, 59);
+        hourEnd.set(Calendar.SECOND, 59);
+        hourEnd.set(Calendar.MILLISECOND, 999);
+        return hourEnd.getTime().getTime();
+    }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.glucopred.MainActivity;
 import com.glucopred.R;
 import com.glucopred.model.HistorianAgent;
+import com.glucopred.model.TrendMode;
 import com.glucopred.service.EstimatorService;
 import com.glucopred.utils.Utils;
 import com.glucopred.view.DialChartView;
@@ -40,8 +41,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 
 	private RadioGroup radioGroup;
-	private RadioButton radioWeek,radioYesterday,radioToday,radioRuntime;
-	private int periodmode = 0;   //0:runtime; 1:today; 2: yester: 3:week
+	private RadioButton radioWeek,radioYesterday,radioToday, radioRealtime;
+	private TrendMode trendMode = TrendMode.REALTIME;   //0:runtime; 1:today; 2: yester: 3:week
 
 	private MainActivity mActivity;
 	private HistorianAgent mHistorianAgent;
@@ -96,38 +97,27 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		radioWeek = (RadioButton)view.findViewById(R.id.radioButtonWeek);
 		radioYesterday = (RadioButton)view.findViewById(R.id.radioButtonYesterday);
 		radioToday = (RadioButton)view.findViewById(R.id.radioButtonToday);
-		radioRuntime = (RadioButton)view.findViewById(R.id.radioButtonRuntime);
+		radioRealtime = (RadioButton)view.findViewById(R.id.radioButtonRealtime);
 
 		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				ArrayList<TrendData> trendData = new ArrayList<TrendData>();
 				if (checkedId == radioWeek.getId()) {
-					trendData = mHistorianAgent.getWeekData();
-					periodmode = 3;
+					trend_chart.drawWeekData(mHistorianAgent.getWeekAverageData());
 				} else if (checkedId == radioYesterday.getId()) {
-					trendData = mHistorianAgent.getYesterdayData();
-					periodmode = 2;
+					trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
 				} else if (checkedId == radioToday.getId()) {
-					trendData = mHistorianAgent.getTodayData();
-					periodmode = 1;
-				} else if (checkedId == radioRuntime.getId()) {
-					trendData = mHistorianAgent.getCurrentDataBySeconds(600);
-					periodmode = 0;
+					trend_chart.drawTodayData(mHistorianAgent.getTodayData());
+				} else if (checkedId == radioRealtime.getId()) {
+					//trendData = mHistorianAgent.getCurrentDataBySeconds(60 * 60 * 2);
+					trend_chart.drawRealtimeData(mHistorianAgent.getRealtimeData());
+					//trendMode = TrendMode.REALTIME;
 				}
-
-				trend_chart.refreshChart();
-				for (int i = 0; i < trendData.size(); i++) {
-					TrendData td = (TrendData) trendData.get(i);
-					float value = (float)roundOneDecimal(td.getValue());
-					trend_chart.addEntry(td.getTimeString(), value);
-				}
-
 			}
 		});
 
-		periodmode = 0;
-		radioRuntime.setChecked(true);
+		trendMode = TrendMode.REALTIME;
+		radioRealtime.setChecked(true);
 		return view;
 	}
 
@@ -168,9 +158,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
 
-			if (periodmode == 0) {
-				trend_chart.pushCurrentData((float) value);
-			}
+
+			trend_chart.pushCurrentData((float) value);
 			mHistorianAgent.pushCurrent(value);
 		}
 	}
