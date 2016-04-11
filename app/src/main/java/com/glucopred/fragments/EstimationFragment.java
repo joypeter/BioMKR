@@ -139,9 +139,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 				} else if (checkedId == radioToday.getId()) {
 					trend_chart.drawTodayData(mHistorianAgent.getTodayData());
 				} else if (checkedId == radioRealtime.getId()) {
-					//trendData = mHistorianAgent.getCurrentDataBySeconds(60 * 60 * 2);
 					trend_chart.drawRealtimeData(mHistorianAgent.getRealtimeData());
-					//trendMode = TrendMode.REALTIME;
 				}
 			}
 		});

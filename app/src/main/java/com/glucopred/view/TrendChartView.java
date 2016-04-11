@@ -287,6 +287,8 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         else if (trendMode == TrendMode.TODAY) {
             Date now = new Date();
             String timeString = Utils.getTimeString(now, "HH:mm:ss");
+
+            //TODO:
         }
     }
 
