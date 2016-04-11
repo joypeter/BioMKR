@@ -116,11 +116,6 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		dial_chart = (DialChartView)view.findViewById(R.id.dial_chart);
 		trend_chart = (TrendChartView)view.findViewById(R.id.trend_chart);
 
-		IntentFilter filter = new IntentFilter();
-        filter.addAction(Utils.BLUETOOTH_NEWDATA);
-		filter.addAction(EstimatorService.ACTION_CONNECTION_STATUS);
-        getActivity().getApplicationContext().registerReceiver(mReceiver, filter);
-
 		mActivity = (MainActivity)  getActivity();
 		mHistorianAgent = mActivity.getHistorianAgent();
 
@@ -153,7 +148,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 				trend_chart.refreshChart();
 				for (int i = 0; i < trendData.size(); i++) {
-					TrendData td = (TrendData) trendData.get(i);
+					TrendData td = trendData.get(i);
 					float value = (float) roundOneDecimal(td.getValue());
 					trend_chart.addEntry(td.getTimeString(), value);
 				}

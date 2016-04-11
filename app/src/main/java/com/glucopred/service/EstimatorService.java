@@ -264,7 +264,6 @@ public class EstimatorService extends Service {
 							for (int i=0; i<prof.y.size(); i++) {
 								intent.putExtra(prof.x.get(i).toString(), prof.y.get(i).floatValue());
 							}
-							sendBroadcast(intent);
 							float d = 1.0f / 0.5615f;
 							float v = 1 - (prof.y.get(13) * d);
 							if (v<0)

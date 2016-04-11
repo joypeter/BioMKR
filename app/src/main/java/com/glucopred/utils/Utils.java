@@ -191,6 +191,7 @@ public class Utils {
         intentFilter.addAction(EstimatorService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(EstimatorService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(EstimatorService.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(BLUETOOTH_NEWDATA);
         intentFilter.addAction(EstimatorService.ACTION_CONNECTION_STATUS);
         return intentFilter;
     }
