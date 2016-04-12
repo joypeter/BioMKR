@@ -173,6 +173,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 
 	private void UpdateUI(final double value) {
 		if (Double.isNaN(value)) {
+			dial_chart.setCurrentStatus(0f);
 			dial_chart.invalidate();
 			trend_chart.pushCurrentData(0f);
 			//mHistorianAgent.pushCurrent(0f);
