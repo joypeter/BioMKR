@@ -120,10 +120,10 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				trend_chart.refreshChart();
 				if (checkedId == radioWeek.getId()) {
 					trend_chart.drawAverageData(mHistorianAgent.getWeekAverageData());
 				} else if (checkedId == radioYesterday.getId()) {
-					//trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
 					trend_chart.drawAverageData(mHistorianAgent.getYesterdayAverageData());
 				} else if (checkedId == radioToday.getId()) {
 					trend_chart.drawTodayData(mHistorianAgent.getTodayData());

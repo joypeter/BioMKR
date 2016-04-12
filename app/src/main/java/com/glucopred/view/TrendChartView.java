@@ -58,31 +58,25 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     public void initChart()
     {
         setOnChartValueSelectedListener(this);
-        //setDrawGridBackground(false);
         setDescription("");
 
-        //setData(new LineData());
-
         XAxis xAxis = getXAxis();
-        xAxis.setDrawLabels(false);
+        xAxis.setDrawLabels(true);
         xAxis.setDrawGridLines(true);
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = getAxisLeft();
         leftAxis.setAxisMinValue(0f);
         leftAxis.setAxisMaxValue(10.0f);
-        //setVisibleYRangeMaximum(MAX_Y_VISIBLE_COUNT, AxisDependency.LEFT);
+
+        getAxisRight().setEnabled(false);
 
         invalidate();
     }
 
-    public void refreshChart(TrendMode mode) {
+    public void refreshChart() {
         clear();
-        //setData(new LineData());
-
-        trendMode = mode;
-        //setTimelabels(mode);
 
         invalidate();
     }
@@ -107,7 +101,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
     public void drawRealtimeData(RealmResults<GlucopredData> data) {
         trendMode = TrendMode.REALTIME;
-        if (data == null || data.size() <= 0)
+        if (data == null)
             return;
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -146,7 +140,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
     public void drawTodayData(RealmResults<GlucopredData> data) {
         trendMode = TrendMode.TODAY;
-        if (data == null || data.size() <= 0)
+        if (data == null)
             return;
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
