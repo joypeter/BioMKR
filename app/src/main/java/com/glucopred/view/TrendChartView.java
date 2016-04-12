@@ -101,45 +101,36 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
     public void drawRealtimeData(RealmResults<GlucopredData> data) {
         trendMode = TrendMode.REALTIME;
-        if (data == null)
-            return;
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
-        String timeFormat = getTimeFormat(trendMode);
+        long end = (new Date()).getTime();
+        long start = end - 2 * Utils.HOUR_MILLISECONDS;//Utils.getDayStart(now);
+        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
 
-        long nowstamp = (new Date()).getTime();
-        long timestamp = nowstamp - 2 * Utils.HOUR_MILLISECONDS;//Utils.getDayStart(now);
-        long endTimestamp = nowstamp;
-
-        int i = 0, j = 0;
-        long timespan = 10 * Utils.SECOND_MILLISECONDS;
-        int datasize = data.size();
-
-        while (timestamp < endTimestamp) {
-            if (i < datasize) {
-                GlucopredData gd = data.get(i);
-                long time = gd.getTimestamp();
-                if (time >= timestamp && time < timestamp + timespan) {
-                    float val = (float) gd.getValue();
-                    yVals.add(new Entry(val, j));
-                    i++;
-                }
-            }
-
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            String timeString = df.format(timestamp);
-            xVals.add(timeString);
-
-            timestamp += timespan;
-            j++;
-        }
-
-        setTrend(xVals, yVals);
+        drawInterData(data, start, end, timeinterval);
     }
 
     public void drawTodayData(RealmResults<GlucopredData> data) {
         trendMode = TrendMode.TODAY;
+
+        long start = Utils.getDayStart(new Date());
+        long end = start + Utils.DAY_MILLISECONDS;
+        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
+
+        drawInterData(data, start, end, timeinterval);
+    }
+
+    public void drawYesterdayData(RealmResults<GlucopredData> data) {
+        trendMode = TrendMode.YESTERDAY;
+
+        long yesterday = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
+        long start = Utils.getDayStart(new Date(yesterday));
+        long end = start + Utils.DAY_MILLISECONDS;
+        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
+
+        drawInterData(data, start, end, timeinterval);
+    }
+
+    private void drawInterData(RealmResults<GlucopredData> data, long start, long end, long timeinterval) {
         if (data == null)
             return;
 
@@ -147,21 +138,20 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         ArrayList<String> xVals = new ArrayList<String>();
         String timeFormat = getTimeFormat(trendMode);
 
-        Date now = new Date();
-        long timestamp = Utils.getDayStart(now);
-        long endTimestamp = timestamp + Utils.DAY_MILLISECONDS;
-
         int i = 0, j = 0;
+        long timestamp = start;
         int datasize = data.size();
-        long timespan = 10 * Utils.SECOND_MILLISECONDS;
 
-        while (timestamp < endTimestamp) {
+        while (timestamp < end) {
             if (i < datasize) {
                 GlucopredData gd = data.get(i);
                 long time = gd.getTimestamp();
-                if (time >= timestamp && time < timestamp + timespan) {
+                if (time >= timestamp && time < timestamp + timeinterval) {
                     float val = (float) gd.getValue();
                     yVals.add(new Entry(val, j));
+                    i++;
+                }
+                else if (time < timestamp) {
                     i++;
                 }
             }
@@ -170,48 +160,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
             String timeString = df.format(timestamp);
             xVals.add(timeString);
 
-            timestamp += timespan;
-            j++;
-        }
-
-        setTrend(xVals, yVals);
-    }
-
-    public void drawYesterdayData(RealmResults<GlucopredData> data) {
-        trendMode = TrendMode.YESTERDAY;
-        if (data == null || data.size() <= 0)
-            return;
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
-        String timeFormat = getTimeFormat(trendMode);
-
-        Date now = new Date();
-        long timestamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
-        long starttime = Utils.getDayStart(new Date(timestamp));
-        long endTimestamp = starttime + Utils.DAY_MILLISECONDS;
-        timestamp = starttime;
-
-        int i = 0, j = 0;
-        int datasize = data.size();
-        long timespan = 10 * Utils.SECOND_MILLISECONDS;
-
-        while (timestamp < endTimestamp) {
-            if (i < datasize) {
-                GlucopredData gd = data.get(i);
-                long time = gd.getTimestamp();
-                if (time >= timestamp && time < timestamp + timespan) {
-                    float val = (float) gd.getValue();
-                    yVals.add(new Entry(val, j));
-                    i++;
-                }
-            }
-
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            String timeString = df.format(timestamp);
-            xVals.add(timeString);
-
-            timestamp += timespan;
+            timestamp += timeinterval;
             j++;
         }
 
