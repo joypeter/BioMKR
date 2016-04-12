@@ -124,7 +124,8 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 				if (checkedId == radioWeek.getId()) {
 					trend_chart.drawAverageData(mHistorianAgent.getWeekAverageData());
 				} else if (checkedId == radioYesterday.getId()) {
-					trend_chart.drawAverageData(mHistorianAgent.getYesterdayAverageData());
+					//trend_chart.drawAverageData(mHistorianAgent.getYesterdayAverageData());
+					trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
 				} else if (checkedId == radioToday.getId()) {
 					trend_chart.drawTodayData(mHistorianAgent.getTodayData());
 				} else if (checkedId == radioRealtime.getId()) {
@@ -174,7 +175,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		if (Double.isNaN(value)) {
 			dial_chart.invalidate();
 			trend_chart.pushCurrentData(0f);
-			mHistorianAgent.pushCurrent(0f);
+			//mHistorianAgent.pushCurrent(0f);
 			return;
 		}
 

@@ -114,7 +114,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
         long start = Utils.getDayStart(new Date());
         long end = start + Utils.DAY_MILLISECONDS;
-        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
+        long timeinterval = 60 * Utils.SECOND_MILLISECONDS;
 
         drawInterData(data, start, end, timeinterval);
     }
@@ -125,7 +125,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         long yesterday = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
         long start = Utils.getDayStart(new Date(yesterday));
         long end = start + Utils.DAY_MILLISECONDS;
-        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
+        long timeinterval = 60 * Utils.SECOND_MILLISECONDS;
 
         drawInterData(data, start, end, timeinterval);
     }
@@ -143,22 +143,24 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         int datasize = data.size();
 
         while (timestamp < end) {
-            if (i < datasize) {
+            DateFormat df = new SimpleDateFormat(timeFormat);
+            String timeString = df.format(timestamp);
+            xVals.add(timeString);
+
+            while (i < datasize) {
                 GlucopredData gd = data.get(i);
                 long time = gd.getTimestamp();
                 if (time >= timestamp && time < timestamp + timeinterval) {
                     float val = (float) gd.getValue();
                     yVals.add(new Entry(val, j));
                     i++;
+                    break;
                 }
-                else if (time < timestamp) {
+                else if (time < timestamp)
                     i++;
-                }
+                else if (time >= timestamp + timeinterval)
+                    break;
             }
-
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            String timeString = df.format(timestamp);
-            xVals.add(timeString);
 
             timestamp += timeinterval;
             j++;
