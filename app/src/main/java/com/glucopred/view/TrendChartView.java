@@ -39,6 +39,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
     private static int MAX_X_VISIBLE_COUNT = 20;
     private static int MAX_Y_VISIBLE_COUNT = 15;
     private TrendMode trendMode = TrendMode.REALTIME;
+    private long todayInterval = 60 * Utils.SECOND_MILLISECONDS;
 
     public TrendChartView(Context context) {
         super(context);
@@ -114,7 +115,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
         long start = Utils.getDayStart(new Date());
         long end = start + Utils.DAY_MILLISECONDS;
-        long timeinterval = 60 * Utils.SECOND_MILLISECONDS;
+        long timeinterval = todayInterval;
 
         drawInterData(data, start, end, timeinterval);
     }
@@ -232,15 +233,39 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         }
         else if (trendMode == TrendMode.TODAY) {
             Date now = new Date();
-            String timeString = Utils.getTimeString(now, "HH:mm:ss");
+            //String timeString = Utils.getTimeString(now, "HH:mm:ss");
 
-            addDataToToday(timeString, entryValue);
+            addDataToToday(now, entryValue);
         }
     }
 
-    private void addDataToToday(String timeString, float entryValue) {
-        //TODO:
+    private void addDataToToday(Date time, float entryValue) {
+        LineData data = getData();
+        if (data == null)
+            return;
 
+        ILineDataSet set = data.getDataSetByIndex(0);
+        if (set == null)
+            return;
+
+        long start = Utils.getDayStart(new Date());
+        long end = start + Utils.DAY_MILLISECONDS;
+        long timestamp = start;
+        int i = 0;
+        long entrytime = time.getTime();
+
+        while (timestamp < end) {
+            if (entrytime >= timestamp) {
+                set.addEntry(new Entry(entryValue, i));
+                notifyDataSetChanged();
+                break;
+            }
+
+            timestamp += todayInterval;
+            i++;
+        }
+
+        invalidate();
     }
 
     private void addSingleData(String timeString, float entryValue) {
