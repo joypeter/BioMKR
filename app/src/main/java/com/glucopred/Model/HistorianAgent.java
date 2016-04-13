@@ -2,14 +2,11 @@ package com.glucopred.model;
 
 import android.content.Context;
 
-import com.github.mikephil.charting.data.Entry;
 import com.glucopred.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +14,7 @@ import java.text.SimpleDateFormat;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by Ju on 2016/3/31.
@@ -24,7 +22,7 @@ import io.realm.RealmResults;
 public class HistorianAgent {
     private Realm realm;
     private int maxStoreDays = 7;
-    private static long INTERVAL_MILLESECONDS = 1000 * 30;              //every 30 seconds one signal
+    private static long INTERVAL_MILLISECONDS = 1000 * 30;              //every 30 seconds one signal
 
     public HistorianAgent(Context context) {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
@@ -39,21 +37,23 @@ public class HistorianAgent {
         simulateData();
     }
 
-    public void simulateData() {
+    private void simulateData() {
         try {
             Random random = new Random();
 
             long now = (new Date()).getTime();
-            long timestamp =  now - Utils.DAY_MILLISECONDS * maxStoreDays;          //start from one week ago
+            long startTimestamp =  now - Utils.DAY_MILLISECONDS * maxStoreDays;          //start from one week ago
+            long endTimestamp = now;
+            long timestamp = startTimestamp;
 
             long firstTimestamp = 0;
             if (realm.where(GlucopredData.class).count() > 0)
-                firstTimestamp = realm.where(GlucopredData.class).min("timestamp").longValue();//findAllSorted("timestamp").first().getTimestamp();
-            long endTimestamp = now;
+                firstTimestamp = realm.where(GlucopredData.class).min("timestamp").longValue();
             if (firstTimestamp > 0)
                 endTimestamp = firstTimestamp;
 
             realm.beginTransaction();
+            int i = 0;
             while (timestamp < endTimestamp) {
                 double value = 5.0 + random.nextInt(10) / 10.0;
 
@@ -61,94 +61,82 @@ public class HistorianAgent {
                 gd.setTimestamp(timestamp);
                 gd.setValue(value);
 
-                timestamp += INTERVAL_MILLESECONDS;
+                timestamp += INTERVAL_MILLISECONDS;
+
+                i++;
+                if (i > Utils.DAY_MILLISECONDS / INTERVAL_MILLISECONDS / 4) {
+                    FingerPrick fp = realm.createObject(FingerPrick.class);
+                    fp.setTimestamp(timestamp);
+                    fp.setValue(value);
+                    i = 0;
+                }
             }
             realm.commitTransaction();
-
-            int size = getDataSize();
-        } catch (Exception ex) {
-            return;
-        }
-    }
-
-    public void pushCurrent(double value) {
-        try {
-            Date date = new Date();
-            long timestamp = date.getTime();
-
-            // Add a data
-            addLast(timestamp, value);
-
         } catch (Exception ex) {
         }
     }
 
-    public void pushNewData(Date date, double value) {
-        try {
-            long timestamp = date.getTime();
-
-            addLast(timestamp, value);
-        } catch (Exception ex) {
-        }
-    }
-
-    public int getDataSize() {
-        int size = realm.allObjects(GlucopredData.class).size();
-        return size;
-    }
-
-    public void clearAllData() {
+    private void clearAllData() {
         try {
             realm.beginTransaction();
             realm.allObjects(GlucopredData.class).clear();
+            realm.allObjects(FingerPrick.class).clear();
             realm.commitTransaction();
         } catch (Exception ex) {
             return;
         }
     }
 
-    public void keepWeekData() {
+    private void keepWeekData() {
         try {
             long firstTimeStamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS * maxStoreDays;
 
             RealmResults<GlucopredData> results = realm.where(GlucopredData.class).lessThan("timestamp", firstTimeStamp).findAll();
-            if (results.size() <=0)
-                return;
+            RealmResults<FingerPrick> fingers = realm.where(FingerPrick.class).lessThan("timestamp", firstTimeStamp).findAll();
 
             realm.beginTransaction();
             results.clear();
+            fingers.clear();
             realm.commitTransaction();
         } catch (Exception ex) {
-            return;
         }
     }
 
-    public RealmResults<GlucopredData> getRealtimeData() {
-        long now = (new Date()).getTime();
-        long starttime = now - Utils.HOUR_MILLISECONDS * 2;
+    public HistorianResults getHistorian(TrendMode mode) {
+        HistorianResults historianResults = new HistorianResults(mode);
 
-        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
-        return results;
+        switch (mode) {
+            case REALTIME:
+                long starttime = (new Date()).getTime() - Utils.HOUR_MILLISECONDS * 2;
+
+                historianResults.glucopreds = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+                historianResults.fingerPricks = realm.where(FingerPrick.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+                break;
+            case TODAY:
+                starttime = Utils.getDayStart(new Date());
+
+                historianResults.glucopreds = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+                historianResults.glucopreds = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+                break;
+            case YESTERDAY:
+                starttime = Utils.getDayStart(new Date((new Date()).getTime() - Utils.DAY_MILLISECONDS));
+                long endtime = starttime + Utils.DAY_MILLISECONDS;
+
+                historianResults.glucopreds = realm.where(GlucopredData.class).between("timestamp", starttime, endtime).findAllSorted("timestamp");
+                historianResults.fingerPricks = realm.where(FingerPrick.class).between("timestamp", starttime, endtime).findAllSorted("timestamp");
+                break;
+            case WEEK:
+                starttime = (new Date()).getTime() - Utils.DAY_MILLISECONDS * 7;
+
+                historianResults.averageGlucopreds = getWeekAverageGlucopred();
+                historianResults.fingerPricks = realm.where(FingerPrick.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
+                break;
+        }
+
+        return historianResults;
     }
 
-    public RealmResults<GlucopredData> getTodayData() {
-        long now = (new Date()).getTime();
-        long starttime = Utils.getDayStart(new Date(now));
-
-        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).greaterThan("timestamp", starttime).findAllSorted("timestamp");
-        return results;
-    }
-
-    public RealmResults<GlucopredData> getYesterdayData() {
-        long timestamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
-        long starttime = Utils.getDayStart(new Date(timestamp));
-        long endtime = starttime + Utils.DAY_MILLISECONDS;
-
-        RealmResults<GlucopredData> results = realm.where(GlucopredData.class).between("timestamp", starttime, endtime).findAllSorted("timestamp");
-        return results;
-    }
-
-    public ArrayList<TrendData> getTodayAverageData() {
+    private List<TrendData> getTodayAverageGlucopred() {
         ArrayList<TrendData> dataList = new ArrayList<TrendData>();
 
         long now = (new Date()).getTime();
@@ -173,7 +161,7 @@ public class HistorianAgent {
         return dataList;
     }
 
-    public List<TrendData> getYesterdayAverageData() {
+    private List<TrendData> getYesterdayAverageGlucopred() {
         List<TrendData> dataList = new ArrayList<TrendData>();
 
         long timestamp = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
@@ -199,7 +187,7 @@ public class HistorianAgent {
         return dataList;
     }
 
-    public List<TrendData> getWeekAverageData() {
+    private List<TrendData> getWeekAverageGlucopred() {
         List<TrendData> dataList = new ArrayList<TrendData>();
 
         long nowstamp = (new Date()).getTime();
@@ -218,18 +206,17 @@ public class HistorianAgent {
             data.setValue(value);
             dataList.add(data);
 
-            timestamp += Utils.HOUR_MILLISECONDS;//DAY_MILLISECONDS;
+            timestamp += Utils.HOUR_MILLISECONDS;
         }
 
         return dataList;
     }
 
-    public ArrayList<TrendData> getCurrentDataBySeconds(int seconds) {
-        ArrayList<TrendData> dataList = new ArrayList<TrendData>();
+    private List<TrendData> getCurrentGlucopredBySeconds(int seconds) {
+        List<TrendData> dataList = new ArrayList<TrendData>();
 
         long now = (new Date()).getTime();
 
-        //long lastTimesatmp = realm.where(GlucopredData.class).max("timestamp").longValue();
         long lastTimesatmp = now;
         long timestamp = lastTimesatmp - seconds * 1000;
 
@@ -253,7 +240,25 @@ public class HistorianAgent {
         return dataList;
     }
 
-    private void addLast(long timestamp, double value) {
+    public void pushGlucopred(Date time, double value) {
+        try {
+            long timestamp = time.getTime();
+
+            addGlucopredData(timestamp, value);
+        } catch (Exception ex) {
+        }
+    }
+
+    public void pushCurrentFinger(Date time, double finger) {
+        try {
+            long timestamp = time.getTime();
+
+            addFingerPrick(timestamp, finger);
+        } catch (Exception ex) {
+        }
+    }
+
+    private void addGlucopredData(long timestamp, double value) {
         try {
             realm.beginTransaction();
             GlucopredData gd = realm.createObject(GlucopredData.class);
@@ -261,7 +266,21 @@ public class HistorianAgent {
             gd.setValue(value);
             realm.commitTransaction();
         } catch (Exception ex) {
-            return;
+        }
+    }
+
+    private void addFingerPrick(long timestamp, double value) {
+        try {
+            FingerPrick latestFinger = realm.where(FingerPrick.class).findAllSorted("timestamp", Sort.DESCENDING).first();
+            if (value == latestFinger.getValue())
+                return;
+
+            realm.beginTransaction();
+            FingerPrick fp = realm.createObject(FingerPrick.class);
+            fp.setTimestamp(timestamp);
+            fp.setValue(value);
+            realm.commitTransaction();
+        } catch (Exception ex) {
         }
     }
 
@@ -278,7 +297,6 @@ public class HistorianAgent {
 
             //RealmResults<GlucopredData> results2 = realm.where(GlucopredData.class).findAll();
         } catch(Exception ex){
-            return;
         }
     }
 
