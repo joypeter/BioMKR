@@ -240,17 +240,23 @@ public class HistorianAgent {
         return dataList;
     }
 
-    public void pushGlucopred(Date time, double value) {
+    public void pushGlucopred(Date time, double glucopred) {
         try {
+            if (Double.isNaN(glucopred) || glucopred == 0)
+                return;
+
             long timestamp = time.getTime();
 
-            addGlucopredData(timestamp, value);
+            addGlucopredData(timestamp, glucopred);
         } catch (Exception ex) {
         }
     }
 
     public void pushCurrentFinger(Date time, double finger) {
         try {
+            if (Double.isNaN(finger) || finger == 0)
+                return;
+
             long timestamp = time.getTime();
 
             addFingerPrick(timestamp, finger);
