@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -17,7 +17,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.glucopred.model.FingerPrick;
 import com.glucopred.model.GlucopredData;
+import com.glucopred.model.HistorianResults;
 import com.glucopred.model.TrendData;
 import com.glucopred.model.TrendMode;
 import com.glucopred.utils.Utils;
@@ -31,15 +33,14 @@ import java.util.List;
 import io.realm.RealmResults;
 
 public class TrendChartView extends LineChart implements OnChartValueSelectedListener {
-
-
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
 
     private static int MAX_VALUE_COUNT = 24;
     private static int MAX_X_VISIBLE_COUNT = 20;
     private static int MAX_Y_VISIBLE_COUNT = 15;
     private TrendMode trendMode = TrendMode.REALTIME;
-    private long todayInterval = 60 * Utils.SECOND_MILLISECONDS;
+    private long intervalOfDay = 60 * Utils.SECOND_MILLISECONDS;
+    private long intervalOfHour = 10 * Utils.SECOND_MILLISECONDS;
 
     public TrendChartView(Context context) {
         super(context);
@@ -82,56 +83,44 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         invalidate();
     }
 
-    public void drawData(RealmResults<GlucopredData> data) {
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
 
-        String timeFormat = getTimeFormat(trendMode);
+    public void drawHistorian(HistorianResults historianResults) {
+        if (historianResults == null)
+            return;
+        trendMode = historianResults.getTrendMode();
 
-        for (int i = 0; i < data.size(); i++) {
-            GlucopredData gd = data.get(i);
-            float val = (float)gd.getValue();
-            long time = gd.getTimestamp();
+        switch (trendMode) {
+            case REALTIME:
+                long end = (new Date()).getTime();
+                long start = end - 2 * Utils.HOUR_MILLISECONDS;
+                long timeinterval = intervalOfHour;
 
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            String timeString = df.format(time);
+                drawInterGlucopred(historianResults.getGlucopreds(), start, end, timeinterval);
+                break;
+            case TODAY:
+                start = Utils.getDayStart(new Date());
+                end = start + Utils.DAY_MILLISECONDS;
+                timeinterval = intervalOfDay;
 
-            yVals.add(new Entry(val, i));
+                drawInterGlucopred(historianResults.getGlucopreds(), start, end, timeinterval);
+                break;
+            case YESTERDAY:
+                long yesterday = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
+                start = Utils.getDayStart(new Date(yesterday));
+                end = start + Utils.DAY_MILLISECONDS;
+                timeinterval = intervalOfDay;
+
+                drawInterGlucopred(historianResults.getGlucopreds(), start, end, timeinterval);
+                break;
+            case WEEK:
+                drawAverageGlucopred(historianResults.getAverageGlucopreds(), historianResults.getFingerPricks());
+                break;
+            default:
+                break;
         }
     }
 
-    public void drawRealtimeData(RealmResults<GlucopredData> data) {
-        trendMode = TrendMode.REALTIME;
-
-        long end = (new Date()).getTime();
-        long start = end - 2 * Utils.HOUR_MILLISECONDS;//Utils.getDayStart(now);
-        long timeinterval = 10 * Utils.SECOND_MILLISECONDS;
-
-        drawInterData(data, start, end, timeinterval);
-    }
-
-    public void drawTodayData(RealmResults<GlucopredData> data) {
-        trendMode = TrendMode.TODAY;
-
-        long start = Utils.getDayStart(new Date());
-        long end = start + Utils.DAY_MILLISECONDS;
-        long timeinterval = todayInterval;
-
-        drawInterData(data, start, end, timeinterval);
-    }
-
-    public void drawYesterdayData(RealmResults<GlucopredData> data) {
-        trendMode = TrendMode.YESTERDAY;
-
-        long yesterday = (new Date()).getTime() - Utils.DAY_MILLISECONDS;
-        long start = Utils.getDayStart(new Date(yesterday));
-        long end = start + Utils.DAY_MILLISECONDS;
-        long timeinterval = 60 * Utils.SECOND_MILLISECONDS;
-
-        drawInterData(data, start, end, timeinterval);
-    }
-
-    private void drawInterData(RealmResults<GlucopredData> data, long start, long end, long timeinterval) {
+    private void drawInterGlucopred(RealmResults<GlucopredData> data, long start, long end, long timeinterval) {
         if (data == null)
             return;
 
@@ -170,9 +159,9 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         setTrend(xVals, yVals);
     }
 
-    public void drawAverageData(List<TrendData> data) {
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
+    private void drawAverageGlucopred(List<TrendData> data, RealmResults<FingerPrick> finger) {
+        List<Entry> yVals = new ArrayList<Entry>();
+        List<String> xVals = new ArrayList<String>();
 
         for (int i = 0; i < data.size(); i++) {
             TrendData td = data.get(i);
@@ -185,8 +174,34 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         setTrend(xVals, yVals);
     }
 
+    private void drawAllGlucopred(RealmResults<GlucopredData> data) {
+        List<Entry> yVals = new ArrayList<Entry>();
+        List<String> xVals = new ArrayList<String>();
+
+        String timeFormat = getTimeFormat(trendMode);
+
+        for (int i = 0; i < data.size(); i++) {
+            GlucopredData gd = data.get(i);
+            float val = (float)gd.getValue();
+            long time = gd.getTimestamp();
+
+            DateFormat df = new SimpleDateFormat(timeFormat);
+            String timeString = df.format(time);
+
+            yVals.add(new Entry(val, i));
+        }
+    }
+
     private void setTrend(List xVals, List yVals) {
         clear();
+
+        setLine(xVals, yVals);
+        //setScatter(xVals, yVals);
+
+        invalidate();
+    }
+
+    private void setLine(List xVals, List yVals) {
         LineDataSet set = new LineDataSet(yVals, "Glucose Level");
         set.setColor(Color.GREEN);
         set.setLineWidth(2.0f);
@@ -196,17 +211,18 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         set.setDrawFilled(false);
         LineData lineData = new LineData(xVals, set);
         setData(lineData);
-        invalidate();
     }
 
-    private void setScatterTrend(List xVals, List yVals) {
+    private void setScatter(List xVals, List yVals) {
         clear();
         ScatterDataSet set = new ScatterDataSet(yVals, "Glucose Level");
         set.setColor(Color.GREEN);
+        set.setDrawValues(false);
+        set.setScatterShapeSize(2.0f);
+        set.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
 
         ScatterData scatterData = new ScatterData(xVals, set);
         //setData(scatterData);
-        invalidate();
     }
 
     private String getTimeFormat(TrendMode mode) {
@@ -224,27 +240,25 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         }
     }
 
-    public void pushCurrentData(float entryValue) {
+    public void pushGlucopred(Date time, float entryValue) {
         if (trendMode == TrendMode.REALTIME) {
-            Date now = new Date();
-            String timeString = Utils.getTimeString(now, "HH:mm:ss");
+            String timeString = Utils.getTimeString(time, "HH:mm:ss");
 
-            addSingleData(timeString, entryValue);
+            addGlucopredToRealtime(timeString, entryValue);
         }
         else if (trendMode == TrendMode.TODAY) {
-            Date now = new Date();
-            //String timeString = Utils.getTimeString(now, "HH:mm:ss");
-
-            addDataToToday(now, entryValue);
+            addGlucopredToToday(time, entryValue);
         }
     }
 
-    private void addDataToToday(Date time, float entryValue) {
+    private void addGlucopredToToday(Date time, float entryValue) {
         LineData data = getData();
+        //ScatterData data = getData();
         if (data == null)
             return;
 
         ILineDataSet set = data.getDataSetByIndex(0);
+        //IScatterDataSet set = data.getDataSetByIndex(0);
         if (set == null)
             return;
 
@@ -261,56 +275,35 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
                 break;
             }
 
-            timestamp += todayInterval;
+            timestamp += intervalOfDay;
             i++;
         }
 
         invalidate();
     }
 
-    private void addSingleData(String timeString, float entryValue) {
+    private void addGlucopredToRealtime(String timeString, float entryValue) {
         LineData data = getData();
+        //ScatterData data = getData();
+        if (data == null)
+            return;
 
-        if(data != null) {
-            ILineDataSet set = data.getDataSetByIndex(0);
-            if (set != null) {
-                data.addXValue(timeString);
-                data.addEntry(new Entry(entryValue, data.getXValCount() - 1), 0);
+        ILineDataSet set = data.getDataSetByIndex(0);
+        //IScatterDataSet set = data.getDataSetByIndex(0);
+        if (set == null)
+            return;
 
-                notifyDataSetChanged();     // let the chart know it's data has changed
+        data.addXValue(timeString);
+        data.addEntry(new Entry(entryValue, data.getXValCount() - 1), 0);
 
-                //moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
-            }
-            //if (set == null) {
-            //    set = createSet();
-            //   data.addDataSet(set);
-            //}
+        notifyDataSetChanged();     // let the chart know it's data has changed
+
+       //moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
 
             //int dataSize = data.getXValCount();
             //if (dataSize >= MAX_VALUE_COUNT)
             //    data.removeXValue(0);
-        }
-
         invalidate();
-    }
-
-    private void removeLastEntry() {
-        LineData data = getData();
-
-        if(data != null) {
-
-            ILineDataSet set = data.getDataSetByIndex(0);
-
-            if (set != null) {
-
-                Entry e = set.getEntryForXIndex(set.getEntryCount() - 1);
-
-                data.removeEntry(e, 0);
-
-                notifyDataSetChanged();
-                invalidate();
-            }
-        }
     }
 
     @Override

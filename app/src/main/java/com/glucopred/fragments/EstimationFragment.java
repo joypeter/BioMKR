@@ -12,9 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -29,7 +26,7 @@ import com.glucopred.utils.Utils;
 import com.glucopred.view.DialChartView;
 import com.glucopred.view.TrendChartView;
 
-import java.text.DecimalFormat;
+import java.util.Date;
 
 public class EstimationFragment extends Fragment implements FragmentEvent {
 	private final static String TAG = EstimationFragment.class.getSimpleName();
@@ -38,7 +35,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 	DialChartView dial_chart = null;
 	TrendChartView trend_chart = null;
 
-	private double _estCurrent = 0;
+	//private double _estCurrent = 0;
 	private String connection_status = EstimatorService.STATE_DISCONNECTED;
 	private String device_name = "";
 	private String device_address = "";
@@ -59,9 +56,11 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
         	Bundle extras = intent.getExtras();
         	
         	if (intent.getAction().equals(Utils.BLUETOOTH_NEWDATA)) {
-        		_estCurrent = extras.getFloat("g7");
-				_estCurrent = Utils.roundOneDecimal(_estCurrent);
-        		UpdateUI(_estCurrent);
+        		double glucopred = extras.getFloat("g7");
+				double finger = extras.getFloat("g2");
+				glucopred = Utils.roundOneDecimal(glucopred);
+				finger = Utils.roundOneDecimal(finger);
+        		UpdateUI(glucopred, finger);
 
         	} else if (intent.getAction().equals(EstimatorService.ACTION_CONNECTION_STATUS)) {
 				connection_status = extras.getString(EstimatorService.EXTRAS_DEVICE_CONN_STATUS);
@@ -121,16 +120,21 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				trend_chart.refreshChart();
-				if (checkedId == radioWeek.getId()) {
-					trend_chart.drawAverageData(mHistorianAgent.getWeekAverageData());
-				} else if (checkedId == radioYesterday.getId()) {
-					//trend_chart.drawAverageData(mHistorianAgent.getYesterdayAverageData());
-					trend_chart.drawYesterdayData(mHistorianAgent.getYesterdayData());
-				} else if (checkedId == radioToday.getId()) {
-					trend_chart.drawTodayData(mHistorianAgent.getTodayData());
-				} else if (checkedId == radioRealtime.getId()) {
-					trend_chart.drawRealtimeData(mHistorianAgent.getRealtimeData());
+				TrendMode mode = TrendMode.REALTIME;
+				if (checkedId == radioRealtime.getId()) {
+					mode = TrendMode.REALTIME;
 				}
+				else if (checkedId == radioToday.getId()) {
+					mode = TrendMode.TODAY;
+				}
+				else if (checkedId == radioYesterday.getId()) {
+					mode = TrendMode.YESTERDAY;
+				}
+				else if (checkedId == radioWeek.getId()) {
+					mode = TrendMode.WEEK;
+				}
+
+				trend_chart.drawHistorian(mHistorianAgent.getHistorian(mode));
 			}
 		});
 
@@ -171,11 +175,12 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		return;
 	}
 
-	private void UpdateUI(final double value) {
+	private void UpdateUI(final double value, final double finger) {
+		Date now = new Date();
+
 		if (Double.isNaN(value)) {
 			dial_chart.invalidate();
-			trend_chart.pushCurrentData(0f);
-			//mHistorianAgent.pushCurrent(0f);
+			trend_chart.pushGlucopred(now, 0f);
 			return;
 		}
 
@@ -183,8 +188,12 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 			dial_chart.setCurrentStatus((float) value);
 			dial_chart.invalidate();
 
-			trend_chart.pushCurrentData((float) value);
-			mHistorianAgent.pushCurrent(value);
+			trend_chart.pushGlucopred(now, (float) value);
+			mHistorianAgent.pushGlucopred(now, value);
+		}
+
+		if (!Double.isNaN(finger) && finger != 0) {
+			mHistorianAgent.pushCurrentFinger(now, finger);
 		}
 	}
 }
