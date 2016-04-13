@@ -179,6 +179,7 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		Date now = new Date();
 
 		if (Double.isNaN(value)) {
+			dial_chart.setCurrentStatus(0f);
 			dial_chart.invalidate();
 			trend_chart.pushGlucopred(now, 0f);
 			return;
