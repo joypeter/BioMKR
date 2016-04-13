@@ -293,7 +293,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         if (set == null)
             return;
 
-        data.removeXValue(0);
+        //data.removeXValue(0);
         data.addXValue(timeString);
         int index = data.getXValCount() - 1;
         data.addEntry(new Entry(entryValue, index), 0);
@@ -302,9 +302,9 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
 
         //moveViewToAnimated(index, 10f, YAxis.AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
 
-        int count = data.getXValCount();
+        int count = (int)(2 * Utils.HOUR_MILLISECONDS / intervalOfHour);
         setVisibleXRangeMaximum(count);
-        moveViewToX(0);
+        moveViewToX(data.getXValCount() - count - 1);
         if (entryValue > 10) {
             getAxisLeft().setAxisMaxValue(entryValue);
             //moveViewToY(entryValue, YAxis.AxisDependency.LEFT);
