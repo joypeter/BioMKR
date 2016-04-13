@@ -124,8 +124,8 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         if (data == null)
             return;
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
+        List<Entry> yVals = new ArrayList<Entry>();
+        List<String> xVals = new ArrayList<String>();
         String timeFormat = getTimeFormat(trendMode);
 
         int i = 0, j = 0;
@@ -301,9 +301,14 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         notifyDataSetChanged();     // let the chart know it's data has changed
 
         //moveViewToAnimated(index, 10f, YAxis.AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
-        moveViewToX(index);
-        if (entryValue > 10)
-            moveViewToY(entryValue, YAxis.AxisDependency.LEFT);
+
+        int count = data.getXValCount();
+        setVisibleXRangeMaximum(count);
+        moveViewToX(0);
+        if (entryValue > 10) {
+            getAxisLeft().setAxisMaxValue(entryValue);
+            //moveViewToY(entryValue, YAxis.AxisDependency.LEFT);
+        }
 
         invalidate();
     }
