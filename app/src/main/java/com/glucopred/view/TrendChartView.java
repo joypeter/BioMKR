@@ -269,7 +269,7 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         long entrytime = time.getTime();
 
         while (timestamp < end) {
-            if (entrytime >= timestamp) {
+            if (entrytime >= timestamp && entrytime <= timestamp + intervalOfDay) {
                 set.addEntry(new Entry(entryValue, i));
                 notifyDataSetChanged();
                 break;
@@ -293,16 +293,18 @@ public class TrendChartView extends LineChart implements OnChartValueSelectedLis
         if (set == null)
             return;
 
+        data.removeXValue(0);
         data.addXValue(timeString);
-        data.addEntry(new Entry(entryValue, data.getXValCount() - 1), 0);
+        int index = data.getXValCount() - 1;
+        data.addEntry(new Entry(entryValue, index), 0);
 
         notifyDataSetChanged();     // let the chart know it's data has changed
 
-       //moveViewToAnimated(data.getXValCount() - 7, 50f, AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
+        //moveViewToAnimated(index, 10f, YAxis.AxisDependency.LEFT, 2000);        // this automatically refreshes the chart (calls invalidate())
+        moveViewToX(index);
+        if (entryValue > 10)
+            moveViewToY(entryValue, YAxis.AxisDependency.LEFT);
 
-            //int dataSize = data.getXValCount();
-            //if (dataSize >= MAX_VALUE_COUNT)
-            //    data.removeXValue(0);
         invalidate();
     }
 
