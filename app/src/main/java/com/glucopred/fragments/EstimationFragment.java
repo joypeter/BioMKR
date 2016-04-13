@@ -175,22 +175,22 @@ public class EstimationFragment extends Fragment implements FragmentEvent {
 		return;
 	}
 
-	private void UpdateUI(final double value, final double finger) {
+	private void UpdateUI(final double glucopred, final double finger) {
 		Date now = new Date();
 
-		if (Double.isNaN(value)) {
+		if (Double.isNaN(glucopred)) {
 			dial_chart.setCurrentStatus(0f);
 			dial_chart.invalidate();
 			trend_chart.pushGlucopred(now, 0f);
 			return;
 		}
 
-		if (value != 0) {
-			dial_chart.setCurrentStatus((float) value);
+		if (glucopred != 0) {
+			dial_chart.setCurrentStatus((float) glucopred);
 			dial_chart.invalidate();
 
-			trend_chart.pushGlucopred(now, (float) value);
-			mHistorianAgent.pushGlucopred(now, value);
+			trend_chart.pushGlucopred(now, (float) glucopred);
+			mHistorianAgent.pushGlucopred(now, glucopred);
 		}
 
 		if (!Double.isNaN(finger) && finger != 0) {
